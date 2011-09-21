@@ -42,7 +42,7 @@ Index:
 # 2. Vytvorenie projektu
 ################################################################################
 
-1. Stiahnut a Nninstalovat (win) resp. zbuildovat Boost C++ library
+1. Stiahnut (pre Windows nainstalovat) Boost C++ library
 
 2. V CMake pri vytvarani projektu treba oznacit: USE_MSVC_RUNTIME_LIBRARY_DLL - ON
 

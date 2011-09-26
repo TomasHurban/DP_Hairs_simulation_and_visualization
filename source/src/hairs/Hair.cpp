@@ -36,7 +36,7 @@ void Hair::computeControlPoints()
 
 	// type 1: uniform distribution of control points
 	// type 2: gradually increasing the distance between points (arithmetically)
-	// type 3: gradually increasing the distance between points (geometrically)
+	// type 3: gradually increasing the distance between points (geometrically - based on controlPointsDistributionType3Multiplier variable value)
 	if (controlPointsDistributionType == 1)
 	{
 		lengthOfPart = length / numberOfElements;

@@ -71,6 +71,13 @@ void Settings::setSettings(std::map<std::string, std::string> pSettings)
 	hairColorG = atof(getSettingValue("hair_color_g").c_str());
 	hairColorB = atof(getSettingValue("hair_color_b").c_str());
 	hairColorA = atof(getSettingValue("hair_color_a").c_str());
+	hairStartPointsInputFile = getSettingValue("hair_start_positions_input_file").c_str();
+
+	if (atoi(getSettingValue("hair_start_positions_load_from_file").c_str()) == 1)
+		hairStartPositionsFromFileEnabled = true;
+	else
+		hairStartPositionsFromFileEnabled = false;
+
 	hairSphereCenterPositionX = atof(getSettingValue("hair_sphere_center_position_x").c_str());
 	hairSphereCenterPositionY = atof(getSettingValue("hair_sphere_center_position_y").c_str());
 	hairSphereCenterPositionZ = atof(getSettingValue("hair_sphere_center_position_z").c_str());

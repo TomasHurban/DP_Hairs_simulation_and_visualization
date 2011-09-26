@@ -50,6 +50,8 @@ class CoreFunctions
 		*/
 		std::list<vl::fvec3> getStartingPositions(qlonglong pNumberOfPositions, vl::fvec3 *pSphereCenterPosition, float pRadius, vl::fvec3 *pPlanePoint);
 
+		std::list<vl::fvec3> getStartingPositions(std::string pFileName);
+
 		/**
 		* \fn		public float computeDistance(vl::fvec3 *pStartPosition, vl::fvec3 *pEndPosition)
 		* \brief	Computes distance from one point to another

@@ -109,6 +109,11 @@ class Settings
 		inline float getHairColorA() { return hairColorA; }
 		inline void setHairColorA(float pHairColorA) { hairColorA = pHairColorA; }
 
+		inline bool getHairStartPositionsFromFileEnabled() { return hairStartPositionsFromFileEnabled; }
+		inline void setHairStartPositionsFromFileEnabled(bool pHairStartPositionsFromFileEnabled) { hairStartPositionsFromFileEnabled = pHairStartPositionsFromFileEnabled; }
+		inline std::string getHairStartPointsInputFile() { return hairStartPointsInputFile; }
+		inline void setHairStartPointsInputFile(float pHairStartPointsInputFile) { hairStartPointsInputFile = pHairStartPointsInputFile; }
+
 		inline float getHairSphereCenterPositionX() { return hairSphereCenterPositionX; }
 		inline void setHairSphereCenterPositionX(float pHairSphereCenterPositionX) { hairSphereCenterPositionX = pHairSphereCenterPositionX; }
 		inline float getHairSphereCenterPositionY() { return hairSphereCenterPositionY; }
@@ -266,6 +271,8 @@ class Settings
 		float hairColorG;
 		float hairColorB;
 		float hairColorA;
+		bool hairStartPositionsFromFileEnabled;
+		std::string hairStartPointsInputFile;
 		float hairSphereCenterPositionX;
 		float hairSphereCenterPositionY;
 		float hairSphereCenterPositionZ;

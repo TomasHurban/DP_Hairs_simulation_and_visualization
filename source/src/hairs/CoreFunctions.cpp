@@ -6,7 +6,6 @@ using namespace std;
 CoreFunctions::CoreFunctions()
 {
 	hairID = 0;
-	//settings = new Settings();
 }
 
 CoreFunctions::~CoreFunctions()
@@ -61,6 +60,60 @@ std::list<vl::fvec3> CoreFunctions::getStartingPositions(qlonglong pNumberOfPosi
 	}
 
 	// TODO: posunut body podla otocenia roviny
+
+	return positions;
+}
+
+std::list<vl::fvec3> CoreFunctions::getStartingPositions(std::string pFileName)
+{
+	std::list<vl::fvec3> positions;
+	std::string line;
+	ifstream file;
+	bool error = false;
+	unsigned int hairNumber;
+	float x;
+	float y;
+	float z;
+	std::string position;
+
+	file.open(pFileName.c_str(), ios::in);
+
+	// check if file is open
+	if (file.is_open())
+	{
+		if (file.good())
+		{
+			getline(file, line);
+			hairNumber = atoi(line.c_str());
+		}
+
+		while (file.good())
+		{
+			int index;
+
+			getline(file, line);
+			index = line.find(" ");
+			position = line.substr(0, index);
+			x = atof(position.c_str());
+
+			line = line.substr(index + 1);
+			index = line.find(" ");
+			position = line.substr(0, index);
+			y = atof(position.c_str());
+
+			position = line.substr(index + 1);
+			z = atof(position.c_str());
+
+			positions.push_back(vl::fvec3(x, y, z));
+		}
+ 
+		file.close();
+	}
+	else
+	{
+		error = true;
+		positions.clear();
+	}
 
 	return positions;
 }
@@ -198,7 +251,6 @@ Settings *CoreFunctions::loadSettings(std::string pFileName)
 	std::string line;
 	ifstream file;
 	bool error = false;
-	//settingsFileName = pFileName;
 
 	settingsList.insert(pair<string, string>("config_file_name", pFileName));
 
@@ -236,7 +288,7 @@ bool CoreFunctions::saveSettings(Settings *pSettings)
 {
 	bool error = false;
 
-	// TODO save settings to config file - pSettings->configFileName
+	// TODO save changed settings to config file - pSettings->configFileName
 
 	return error;
 }

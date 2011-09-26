@@ -56,7 +56,7 @@ Index:
 
 ( $Project$/src/bullet/src/ )
 
-6. Pridat kniznice Bullet Physics library do projektu (ako bod 4) NA KONIEC ZOZNAMU(!): C/C++->General: Additional Include Directories 
+6. Pridat kniznice Bullet Physics library do projektu (ako bod 5) NA KONIEC ZOZNAMU(!): C/C++->General: Additional Include Directories 
 
 ( $Project$/src/bullet/Demos/OpenGL/ )
 ( $Project$/src/bullet/Glut/ )

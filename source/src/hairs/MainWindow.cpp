@@ -316,8 +316,26 @@ bool MainWindow::hairInitialization()
 	hairColor = new vl::fvec4(settings->getHairColorR(), settings->getHairColorG(), settings->getHairColorB(), settings->getHairColorA());
 	directionStartPoint = new vl::fvec3(settings->getHairDirectionStartPointX(), settings->getHairDirectionStartPointY(), settings->getHairDirectionStartPointZ());
 
-	// get hair start positions
-	startPositions = core->getStartingPositions(settings->getHairsNumber(), sphereCenterPosition, settings->getHairSphereRadius(), planePoint);
+	// check if we want to load hair starting positions from file
+	if (settings->getHairStartPositionsFromFileEnabled())
+	{
+		// load hair starting positions from file 
+		startPositions = core->getStartingPositions(settings->getHairStartPointsInputFile());
+
+		// check if loaded correctly
+		if (startPositions.empty())
+		{
+			vl::Log::error( Say("Cannot open hair starting points input file!\n") );
+			// cannot load positions from file, so generate hair starting position randomly 
+			startPositions = core->getStartingPositions(settings->getHairsNumber(), sphereCenterPosition, settings->getHairSphereRadius(), planePoint);
+		}
+	}
+	else
+	{
+		// generate hair starting position randomly 
+		startPositions = core->getStartingPositions(settings->getHairsNumber(), sphereCenterPosition, settings->getHairSphereRadius(), planePoint);
+	}
+
 	settings->setStartPositions(startPositions);
 
 	// create hairs
@@ -328,7 +346,7 @@ bool MainWindow::hairInitialization()
 		direction = core->getDirection(directionStartPoint, hairStartPosition);
 		if (direction->x() == 0 && direction->y() == 0 && direction->z() == 0)
 		{
-			vl::Log::print( Say("Wrong hair start point choosen.\n") );
+			vl::Log::print( Say("Wrong hair start point choosen. (direction start position == hair start position)\n") );
 		}
 
 		Hair *newHair = new Hair(core->getHairID(), settings->getHairsLength(), settings->getHairsWidth(), settings->getHairParticlesNumber(), hairColor, hairStartPosition, direction, settings->getHairType(), settings->getHairControlPointsDistributionType(), settings->getHairControlPointsDistributionType3Multiplier());

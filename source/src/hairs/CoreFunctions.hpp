@@ -52,6 +52,8 @@ class CoreFunctions
 
 		std::list<vl::fvec3> getStartingPositions(std::string pFileName);
 
+		std::list<vl::fvec3> getStartingPositions(std::map<std::list<vl::fvec3>, unsigned int> pArea, bool pStartingPositionsInCorners);
+
 		/**
 		* \fn		public float computeDistance(vl::fvec3 *pStartPosition, vl::fvec3 *pEndPosition)
 		* \brief	Computes distance from one point to another
@@ -62,7 +64,7 @@ class CoreFunctions
 		float computeDistance(vl::fvec3 *pStartPosition, vl::fvec3 *pEndPosition);
 
 		/**
-		* \fn		public float computeDistance(float x1, float x2, float y1, float y2)
+		* \fn		public float computeDistance(float x1, float y1, float x2, float y2)
 		* \brief	Computes distance from one point to another
 		* \param	x1		x position of first point 
 		* \param	y1		y position of first point 
@@ -71,6 +73,15 @@ class CoreFunctions
 		* \return	float	distance between two points
 		*/
 		float computeDistance(float x1, float y1, float x2, float y2);
+
+		/**
+		* \fn		public float computeDistance(float x1, float x2)
+		* \brief	Computes distance from one point to another
+		* \param	x1		x position of first point 
+		* \param	x2		x position of second point 
+		* \return	float	distance between two points
+		*/
+		float computeDistance(float x1, float x2);
 
 		/**
 		* \fn		public vl::fvec3 *getDirection(vl::fvec3 *pStartPoint, vl::fvec3 *pEndPoint)
@@ -115,11 +126,15 @@ class CoreFunctions
 		*/
 		float getRandomNumber(float min, float max);
 
-		/**
-		* std::list<vl::fvec3> positions
-		* \brief	List of hairs starting positions 
-		*/
-		//std::list<vl::fvec3> positions;
+		vl::fvec3 getNewPointPosition(vl::fvec3 pPoint1, vl::fvec3 pPoint2, float pValueX);
+
+		float getMin(float value1, float value2, float value3);
+
+		float getMin(float value1, float value2);
+
+		float getMax(float value1, float value2, float value3);
+
+		float getMax(float value1, float value2);
 
 		// comm TODO
 		qlonglong hairID;

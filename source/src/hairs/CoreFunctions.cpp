@@ -118,6 +118,248 @@ std::list<vl::fvec3> CoreFunctions::getStartingPositions(std::string pFileName)
 	return positions;
 }
 
+std::list<vl::fvec3> CoreFunctions::getStartingPositions(std::map<std::list<vl::fvec3>, unsigned int> pArea, bool pStartingPositionsInCorners)
+{
+	std::list<vl::fvec3> positions;
+	std::set<vl::fvec3> cornerPositions;
+	std::set<vl::fvec3>::iterator itCornerPositions;
+	std::map<std::list<vl::fvec3>, unsigned int>::iterator itMap;
+	std::list<vl::fvec3> points;
+	std::list<vl::fvec3>::iterator itPoints;
+	unsigned int number;
+	vl::fvec3 point1;
+	vl::fvec3 point2;
+	vl::fvec3 point3;
+	vl::fvec3 newPoint1;
+	vl::fvec3 newPoint2;
+	float valueX;
+	float valueY;
+	float valueZ;
+	bool error = false;
+	
+	for (itMap=pArea.begin(); itMap!=pArea.end(); itMap++)
+	{
+		points = (*itMap).first;
+		number = (*itMap).second;
+
+		itPoints=points.begin();
+		if (itPoints != points.end())
+		{
+			point1 = *itPoints;
+			itPoints++;
+		}
+		if (itPoints != points.end())
+		{
+			point2 = *itPoints;
+			itPoints++;
+		}
+		if (itPoints != points.end())
+		{
+			point3 = *itPoints;
+		}
+		else 
+		{
+			error = true;
+			break;
+		}
+
+		// check if points are in plane 
+		if ((point1 == point2) || (point1 == point3) || (point2 == point3))
+		{
+			error = true;
+			break;
+		}
+
+		// we use corners points as starting points too
+		if (pStartingPositionsInCorners)
+		{
+			cornerPositions.insert(point1);
+			cornerPositions.insert(point2);
+			cornerPositions.insert(point3);
+		}
+
+		for (int i=0; i<number; i++)
+		{
+			float minX = getMin(point1.x(), point2.x(), point3.x());
+			float maxX = getMax(point1.x(), point2.x(), point3.x());
+
+			do {
+				valueX = getRandomNumber(minX, maxX);
+			}
+			while ((valueX == point1.x()) || (valueX == point2.x()) || (valueX == point3.x()));
+
+			if ((valueX < point1.x() && valueX < point2.x()) || (valueX > point1.x() && valueX > point2.x()))
+			{
+				// x is between points 1-3 and 2-3
+				newPoint1 = getNewPointPosition(point1, point3, valueX);
+				newPoint2 = getNewPointPosition(point2, point3, valueX);
+			}
+			else if ((valueX < point1.x() && valueX < point3.x()) || (valueX > point1.x() && valueX > point3.x()))
+			{
+				// x is between points 1-2 and 2-3
+				newPoint1 = getNewPointPosition(point1, point2, valueX);
+				newPoint2 = getNewPointPosition(point2, point3, valueX);
+			}
+			else if ((valueX < point2.x() && valueX < point3.x()) || (valueX > point2.x() && valueX > point3.x()))
+			{
+				// x is between points 1-2 and 1-3
+				newPoint1 = getNewPointPosition(point1, point3, valueX);
+				newPoint2 = getNewPointPosition(point2, point3, valueX);
+			}
+			else
+			{
+				error = true;
+				break;
+			}
+
+			if (newPoint1.y() > newPoint2.y())
+			{
+				vl::fvec3 tmpPoint = newPoint1;
+				newPoint1 = newPoint2;
+				newPoint2 = tmpPoint;
+			}
+
+			valueY = getRandomNumber(newPoint1.y(), newPoint2.y());
+
+			float maxDistanceY = computeDistance(newPoint1.y(), newPoint2.y());
+			float partDistanceY = computeDistance(newPoint1.y(), valueY);
+			float multiplier = partDistanceY / maxDistanceY;
+
+			float maxDistanceZ = computeDistance(newPoint1.z(), newPoint2.z());
+			float partDistanceZ = maxDistanceZ * multiplier;
+
+			if (newPoint1.z() < newPoint2.z())
+			{
+				valueZ = newPoint1.z() + partDistanceZ;
+			}
+			else 
+			{
+				valueZ = newPoint1.z() - partDistanceZ;
+			}
+
+			positions.push_back(vl::fvec3(valueX, valueY, valueZ));
+		}
+	}
+
+	for (itCornerPositions=cornerPositions.begin(); itCornerPositions!=cornerPositions.end(); itCornerPositions++)
+	{
+		positions.push_back(vl::fvec3((*itCornerPositions).x(), (*itCornerPositions).y(), (*itCornerPositions).z()));
+	}
+
+	if (error)
+	{
+		positions.clear();
+	}
+
+	return positions;
+}
+
+vl::fvec3 CoreFunctions::getNewPointPosition(vl::fvec3 pPoint1, vl::fvec3 pPoint2, float pValueX)
+{
+	float maxDistance;
+	float partDistance;
+	float multiplier;
+	float valueY;
+	float valueZ;
+	
+	if (pPoint1.x() > pPoint2.x())
+	{
+		vl::fvec3 tmpPoint = pPoint1;
+		pPoint1 = pPoint2;
+		pPoint2 = tmpPoint;
+	}
+
+	maxDistance = computeDistance(pPoint1.x(), pPoint2.x());
+	partDistance = computeDistance(pPoint1.x(), pValueX);
+	multiplier = partDistance / maxDistance;
+
+	maxDistance = computeDistance(pPoint1.y(), pPoint2.y());
+	partDistance = maxDistance * multiplier;
+	if (pPoint1.y() < pPoint2.y())
+	{
+		valueY = pPoint1.y() + partDistance;
+	}
+	else 
+	{
+		valueY = pPoint1.y() - partDistance;
+	}
+
+	maxDistance = computeDistance(pPoint1.z(), pPoint2.z());
+	partDistance = maxDistance * multiplier;
+	if (pPoint1.z() < pPoint2.z())
+	{
+		valueZ = pPoint1.z() + partDistance;
+	}
+	else 
+	{
+		valueZ = pPoint1.z() - partDistance;
+	}
+
+	return vl::fvec3(pValueX, valueY, valueZ);
+}
+
+float CoreFunctions::getMin(float value1, float value2, float value3)
+{
+	float min;
+
+	min = value1;
+
+	if (value2 < min)
+	{
+		min = value2;
+	}
+
+	if (value3 < min)
+	{
+		min = value3;
+	}
+
+	return min;
+}
+
+float CoreFunctions::getMin(float value1, float value2)
+{
+	if (value1 < value2)
+	{
+		return value1;
+	}
+	else
+	{
+		return value2;
+	}
+}
+
+float CoreFunctions::getMax(float value1, float value2, float value3)
+{
+	float max;
+
+	max = value1;
+
+	if (value2 > max)
+	{
+		max = value2;
+	}
+
+	if (value3 > max)
+	{
+		max = value3;
+	}
+
+	return max;
+}
+
+float CoreFunctions::getMax(float value1, float value2)
+{
+	if (value1 < value2)
+	{
+		return value2;
+	}
+	else
+	{
+		return value1;
+	}
+}
+
 float CoreFunctions::computeDistance(vl::fvec3 *pStartPosition, vl::fvec3 *pEndPosition)
 {
 	float distance; // Absolute value of distance between start and end position
@@ -155,6 +397,16 @@ float CoreFunctions::computeDistance(float x1, float y1, float x2, float y2)
 
 	distance = (diffX * diffX) + (diffY * diffY);
 	distance = sqrt(distance);
+
+	return distance;
+}
+
+float CoreFunctions::computeDistance(float x1, float x2)
+{
+	float distance; // Absolute value of distance between start and end position
+
+	distance = x1 - x2;
+	distance = fabs(distance);
 
 	return distance;
 }

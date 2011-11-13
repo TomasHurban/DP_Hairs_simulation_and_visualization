@@ -70,7 +70,6 @@ std::list<vl::fvec3> CoreFunctions::getStartingPositions(std::string pFileName)
 	std::string line;
 	ifstream file;
 	bool error = false;
-	unsigned int hairNumber;
 	float x;
 	float y;
 	float z;
@@ -81,12 +80,6 @@ std::list<vl::fvec3> CoreFunctions::getStartingPositions(std::string pFileName)
 	// check if file is open
 	if (file.is_open())
 	{
-		if (file.good())
-		{
-			getline(file, line);
-			hairNumber = atoi(line.c_str());
-		}
-
 		while (file.good())
 		{
 			int index;

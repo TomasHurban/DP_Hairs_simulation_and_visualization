@@ -81,8 +81,8 @@ class Settings
 		inline bool getFormatIsFullscreen() { return formatIsFullscreen; }
 		inline void setFormatIsFullscreen(bool pFormatIsFullscreen) { formatIsFullscreen = pFormatIsFullscreen; }
 
-		inline int getFormatMultisampling() { return formatMultisampling; }
-		inline void setFormatMultisampling(int pFormatMultisampling) { formatMultisampling = pFormatMultisampling; }
+		inline int getFormatMultisamplingValue() { return formatMultisamplingValue; }
+		inline void setFormatMultisamplingValue(int pFormatMultisamplingValue) { formatMultisamplingValue = pFormatMultisamplingValue; }
 
 		inline bool getFormatMultisamplingEnabled() { return formatMultisamplingEnabled; }
 		inline void setFormatMultisamplingEnabled(bool pFormatMultisamplingEnabled) { formatMultisamplingEnabled = pFormatMultisamplingEnabled; }
@@ -109,8 +109,8 @@ class Settings
 		inline float getHairColorA() { return hairColorA; }
 		inline void setHairColorA(float pHairColorA) { hairColorA = pHairColorA; }
 
-		inline bool getHairStartPositionsFromFileEnabled() { return hairStartPositionsFromFileEnabled; }
-		inline void setHairStartPositionsFromFileEnabled(bool pHairStartPositionsFromFileEnabled) { hairStartPositionsFromFileEnabled = pHairStartPositionsFromFileEnabled; }
+		inline int getHairStartPositionsType() { return hairStartPositionsType; }
+		inline void setHairStartPositionsType(int pHairStartPositionsType) { hairStartPositionsType = pHairStartPositionsType; }
 		inline std::string getHairStartPointsInputFile() { return hairStartPointsInputFile; }
 		inline void setHairStartPointsInputFile(float pHairStartPointsInputFile) { hairStartPointsInputFile = pHairStartPointsInputFile; }
 
@@ -259,7 +259,7 @@ class Settings
 		int formatDepthBufferBits;
 		int formatStencilBufferBits;
 		bool formatIsFullscreen;
-		int formatMultisampling;
+		int formatMultisamplingValue;
 		bool formatMultisamplingEnabled;
 
 		// hair settings
@@ -271,7 +271,7 @@ class Settings
 		float hairColorG;
 		float hairColorB;
 		float hairColorA;
-		bool hairStartPositionsFromFileEnabled;
+		int hairStartPositionsType;
 		std::string hairStartPointsInputFile;
 		float hairSphereCenterPositionX;
 		float hairSphereCenterPositionY;

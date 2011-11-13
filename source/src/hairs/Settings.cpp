@@ -55,7 +55,7 @@ void Settings::setSettings(std::map<std::string, std::string> pSettings)
 	else
 		formatIsFullscreen = false;
 
-	formatMultisampling = atoi(getSettingValue("format_multisampling").c_str());
+	formatMultisamplingValue = atoi(getSettingValue("format_multisampling_value").c_str());
 
 	if (atoi(getSettingValue("format_multisampling_enabled").c_str()) == 1)
 		formatMultisamplingEnabled = true;
@@ -72,12 +72,7 @@ void Settings::setSettings(std::map<std::string, std::string> pSettings)
 	hairColorB = atof(getSettingValue("hair_color_b").c_str());
 	hairColorA = atof(getSettingValue("hair_color_a").c_str());
 	hairStartPointsInputFile = getSettingValue("hair_start_positions_input_file").c_str();
-
-	if (atoi(getSettingValue("hair_start_positions_load_from_file").c_str()) == 1)
-		hairStartPositionsFromFileEnabled = true;
-	else
-		hairStartPositionsFromFileEnabled = false;
-
+	hairStartPositionsType = atoi(getSettingValue("hair_start_positions_type").c_str());
 	hairSphereCenterPositionX = atof(getSettingValue("hair_sphere_center_position_x").c_str());
 	hairSphereCenterPositionY = atof(getSettingValue("hair_sphere_center_position_y").c_str());
 	hairSphereCenterPositionZ = atof(getSettingValue("hair_sphere_center_position_z").c_str());
@@ -88,8 +83,8 @@ void Settings::setSettings(std::map<std::string, std::string> pSettings)
 	hairDirectionStartPointX = atof(getSettingValue("hair_direction_start_point_x").c_str());
 	hairDirectionStartPointY = atof(getSettingValue("hair_direction_start_point_y").c_str());
 	hairDirectionStartPointZ = atof(getSettingValue("hair_direction_start_point_z").c_str());
-	hairControlPointsDistributionType = atoi(getSettingValue("hair_control_points_distribution_type").c_str());
-	hairControlPointsDistributionType3Multiplier = atof(getSettingValue("hair_control_points_distribution_type_3_multiplier").c_str());
+	hairControlPointsDistributionType = atoi(getSettingValue("hair_control_points_dist_type").c_str());
+	hairControlPointsDistributionType3Multiplier = atof(getSettingValue("hair_control_points_dist_type_3_multiplier").c_str());
 	hairType = atoi(getSettingValue("hair_type").c_str());
 	model = getSettingValue("model").c_str();
 
@@ -172,6 +167,6 @@ void Settings::createFormat()
 	format.setDepthBufferBits(formatDepthBufferBits);
 	format.setStencilBufferBits(formatStencilBufferBits);
 	format.setFullscreen(formatIsFullscreen);
-	format.setMultisampleSamples(formatMultisampling);
+	format.setMultisampleSamples(formatMultisamplingValue);
 	format.setMultisample(formatMultisamplingEnabled);
 }

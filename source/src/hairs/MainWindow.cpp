@@ -95,12 +95,13 @@ void MainWindow::updateScene()
 	}
 
 	// refresh time setup
-	if (refreshTimer <= refreshSpeed)
+	if (refreshTimer < refreshSpeed)
 	{
-		if (refreshTimer == refreshSpeed)
-			refreshTimer = 1;
-		else
-			refreshTimer++;
+		refreshTimer++;
+	}
+	else if (refreshSpeed != 1)
+	{
+		refreshTimer = 1;
 	}
 
 	// FPS timer
@@ -317,7 +318,7 @@ bool MainWindow::hairInitialization()
 	directionStartPoint = new vl::fvec3(settings->getHairDirectionStartPointX(), settings->getHairDirectionStartPointY(), settings->getHairDirectionStartPointZ());
 
 	// check if we want to load hair starting positions from file
-	if (settings->getHairStartPositionsFromFileEnabled())
+	if (settings->getHairStartPositionsType() == 2)
 	{
 		// load hair starting positions from file 
 		startPositions = core->getStartingPositions(settings->getHairStartPointsInputFile());
@@ -330,9 +331,15 @@ bool MainWindow::hairInitialization()
 			startPositions = core->getStartingPositions(settings->getHairsNumber(), sphereCenterPosition, settings->getHairSphereRadius(), planePoint);
 		}
 	}
-	else
+	else if (settings->getHairStartPositionsType() == 3)
 	{
-		// generate hair starting position randomly 
+		// generate hair starting position randomly on defined area 
+		// TODO - zavolat funkciu
+		//startPositions = core->getStartingPositions(settings->getHairsNumber(), sphereCenterPosition, settings->getHairSphereRadius(), planePoint);
+	}
+	else // type 1
+	{
+		// generate hair starting position randomly on sphere surface
 		startPositions = core->getStartingPositions(settings->getHairsNumber(), sphereCenterPosition, settings->getHairSphereRadius(), planePoint);
 	}
 

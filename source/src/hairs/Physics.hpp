@@ -50,14 +50,7 @@ class Physics : public PlatformApplication
 		btAlignedObjectArray<btSoftRididCollisionAlgorithm*> m_SoftRigidCollisionAlgorithms;
 		btSoftBodyWorldInfo	m_softBodyWorldInfo;
 
-		bool m_autocam;
-		bool m_cutting;
-		bool m_raycast;
-		btScalar m_animtime;
-		btClock	m_clock;
 		int m_lastmousepos[2];
-		btVector3 m_impact;
-		btSoftBody::sRayCast m_results;
 		btSoftBody::Node *m_node;
 		btVector3 m_goal;
 		bool m_drag;
@@ -112,8 +105,6 @@ class Physics : public PlatformApplication
 		void clientResetScene();
 		void renderme();
 		void keyboardCallback(unsigned char key, int x, int y);
-		void mouseFunc(int button, int state, int x, int y);
-		void mouseMotionFunc(int x, int y);
 
 	protected:
 		Settings *settings;

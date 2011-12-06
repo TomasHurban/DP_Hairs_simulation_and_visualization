@@ -17,6 +17,8 @@
 #include <QtGlobal>
 #include <iostream>
 
+#include "CoreFunctions.hpp"
+
 /**
 * \class	Hair
 * \brief	Hair object representation
@@ -49,12 +51,17 @@ class Hair
 		~Hair();
 
 		/**
-		* \fn		public void createHair(vl::RenderingAbstract *pRendering)
+		* \fn		public void createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInterpolatedPointsNumber)
 		* \brief	Create hair object
-		* \param	pRendering		rendering
+		* \param	pRendering							rendering
+		* \param	pHairInterpolatedPointsNumber		number of hair interpolated points
 		*/
-		void createHair(vl::RenderingAbstract *pRendering);
+		void createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInterpolatedPointsNumber);
 
+		/**
+		* \fn		public void repaintHair()
+		* \brief	Repaint hair geometry
+		*/
 		void repaintHair();
 
 		/**
@@ -62,16 +69,35 @@ class Hair
 		* \brief	Return hair object
 		* \return	vl::Actor*		hair object
 		*/
-		vl::ref<vl::Actor> *getHair();
+		vl::ref<vl::Actor> *getHair() { return &actor; };
 
 		/**
-		* \fn		public std::vector<vl::fvec3> *getPoints()
+		* \fn		public std::vector<vl::fvec3> *getControlPoints()
 		* \brief	Return hair control points
 		* \return	std::vector<vl::fvec3>*		hair control points
 		*/
-		std::vector<vl::fvec3> *getPoints();
+		std::vector<vl::fvec3> *getControlPoints() { return &controlPoints; };
 
-		void setPoints(std::vector<vl::fvec3> *pPoints);
+		/**
+		* \fn		public void setControlPoints(std::vector<vl::fvec3> *pControlPoints)
+		* \brief	Set hair control points
+		* \param	pControlPoints			control points
+		*/
+		void setControlPoints(std::vector<vl::fvec3> *pControlPoints) { controlPoints = *pControlPoints; };
+
+		/**
+		* \fn		public std::vector<vl::fvec3> *getInterpolatedPoints()
+		* \brief	Return hair interpolated points
+		* \return	std::vector<vl::fvec3>*		hair interpolated points
+		*/
+		std::vector<vl::fvec3> *getInterpolatedPoints() { return &interpolatedPoints; };
+
+		/**
+		* \fn		public void setInterpolatedPoints(std::vector<vl::fvec3> *pInterpolatedPoints)
+		* \brief	Set hair interpolated points
+		* \param	pInterpolatedPoints		interpolated points
+		*/
+		void setInterpolatedPoints(std::vector<vl::fvec3> *pInterpolatedPoints) { interpolatedPoints = *pInterpolatedPoints; };
 
 		vl::Effect *getEffect();
 		void setEffect(vl::Effect);
@@ -130,10 +156,16 @@ class Hair
 		vl::fvec4 *color;
 
 		/**
-		* std::vector<vl::fvec3> *points
+		* std::vector<vl::fvec3> controlPoints
 		* \brief	Vector of hair control points 
 		*/
-		std::vector<vl::fvec3> points;
+		std::vector<vl::fvec3> controlPoints;
+
+		/**
+		* std::vector<vl::fvec3> interpolatedPoints
+		* \brief	Vector of hair interpolated control points 
+		*/
+		std::vector<vl::fvec3> interpolatedPoints;
 
 		/**
 		* vl::fvec3 *direction
@@ -226,6 +258,8 @@ class Hair
 		float width;
 
 		vl::ref<vl::ArrayFloat3> vertArray;
+
+		CoreFunctions *core;
 };
 
 #endif

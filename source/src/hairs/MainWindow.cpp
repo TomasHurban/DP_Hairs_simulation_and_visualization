@@ -81,9 +81,15 @@ void MainWindow::updateScene()
 
 				if (itNewPositions != newPositions.end())
 				{
-					std::vector<vl::fvec3> *points = &itNewPositions->second;
+					std::vector<vl::fvec3> *controlPoints = &itNewPositions->second;
 
-					itHairs->setPoints(points);
+					// set new control points
+					itHairs->setControlPoints(controlPoints);
+
+					// compute interpolated points from control points
+					itHairs->setInterpolatedPoints(&(core->computeInterpolatedPoints(controlPoints, settings->getHairInterpolatedPointsNumber())));
+
+					// repaint hair
 					itHairs->repaintHair();
 				}
 				else
@@ -159,11 +165,6 @@ void MainWindow::keyPressEvent(unsigned short, vl::EKey key)
 		{
 			settings->setSimulationRunning(true);
 			text->setText( Say("Simulation running") );
-
-			// we can set visualisation or simulation window size according to screen resolution
-			//QRect screenResolution = QApplication::desktop()->screenGeometry();
-			//screenWidth = screenResolution.width();
-			//screenHeight = screenResolution.height();
 
 			if (simulationStarted == false)
 			{
@@ -290,10 +291,10 @@ bool MainWindow::environmentInitialization()
 
 	if (GLEW_ARB_shading_language_100 || GLEW_VERSION_3_0)
 	{
-		//vl::ref<vl::GLSLProgram> modelGlsl;
-		//modelGlsl = effectModel->shader()->gocGLSLProgram();
-		//modelGlsl->attachShader( new vl::GLSLVertexShader("perpixellight.vs") );
-		//modelGlsl->attachShader( new vl::GLSLFragmentShader("perpixellight.fs") );
+		/*vl::ref<vl::GLSLProgram> modelGlsl;
+		modelGlsl = effectModel->shader()->gocGLSLProgram();
+		modelGlsl->attachShader( new vl::GLSLVertexShader("perpixellight.vs") );
+		modelGlsl->attachShader( new vl::GLSLFragmentShader("perpixellight.fs") );*/
 	}
 
 	return error;
@@ -357,7 +358,8 @@ bool MainWindow::hairInitialization()
 		}
 
 		Hair *newHair = new Hair(core->getHairID(), settings->getHairsLength(), settings->getHairsWidth(), settings->getHairParticlesNumber(), hairColor, hairStartPosition, direction, settings->getHairType(), settings->getHairControlPointsDistributionType(), settings->getHairControlPointsDistributionType3Multiplier());
-		newHair->createHair(rendering());
+		newHair->createHair(rendering(), settings->getHairInterpolatedPointsNumber());
+		// TODO mozno vytvorit len 1 effect a transformaciu a priradit ju kazdemu vytvorenemu vlasu
 		sceneManager()->tree()->addActor(newHair->getHair()->get());
 		hairs.push_back(*newHair);
 	}

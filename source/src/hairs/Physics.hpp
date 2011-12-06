@@ -83,7 +83,6 @@ class Physics : public PlatformApplication
 
 		virtual void clientMoveAndDisplay();
 		virtual void displayCallback();
-		void createStack( btCollisionShape* boxShape, float halfCubeSize, int size, float zPos );
 
 		static DemoApplication* Create()
 		{

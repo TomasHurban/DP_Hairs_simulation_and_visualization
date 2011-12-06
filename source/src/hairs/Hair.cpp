@@ -5,6 +5,8 @@ using namespace std;
 
 Hair::Hair(unsigned int pId, float pLength, float pWidth, int pNumberOfElements, vl::fvec4 *pColor, vl::fvec3 *pStartPosition, vl::fvec3 *pDirection, int pType, int pControlPointsDistributionType, float pControlPointsDistributionType3Multiplier)
 {
+	core = new CoreFunctions();
+
 	id = pId;
 	length = pLength;
 	width = pWidth;
@@ -27,12 +29,12 @@ Hair::~Hair()
 void Hair::computeControlPoints()
 {
 	float lengthOfPart;
-	points.clear();
+	controlPoints.clear();
 	float x = startPosition->x();
 	float y = startPosition->y();
 	float z = startPosition->z();
 	
-	points.push_back(vl::fvec3(x, y, z));
+	controlPoints.push_back(vl::fvec3(x, y, z));
 
 	// type 1: uniform distribution of control points
 	// type 2: gradually increasing the distance between points (arithmetically)
@@ -47,7 +49,7 @@ void Hair::computeControlPoints()
 			y += direction->y() * lengthOfPart;
 			z += direction->z() * lengthOfPart;
 
-			points.push_back(vl::fvec3(x, y, z));
+			controlPoints.push_back(vl::fvec3(x, y, z));
 		}
 	}
 	else if (controlPointsDistributionType == 2)
@@ -71,7 +73,7 @@ void Hair::computeControlPoints()
 				y += direction->y() * lengthOfPart;
 				z += direction->z() * lengthOfPart;
 
-				points.push_back(vl::fvec3(x, y, z));
+				controlPoints.push_back(vl::fvec3(x, y, z));
 				
 				lengthOfPart += step;
 			}
@@ -86,7 +88,7 @@ void Hair::computeControlPoints()
 				y += direction->y() * lengthOfPart;
 				z += direction->z() * lengthOfPart;
 
-				points.push_back(vl::fvec3(x, y, z));
+				controlPoints.push_back(vl::fvec3(x, y, z));
 				
 				lengthOfPart += step;
 			}
@@ -111,17 +113,16 @@ void Hair::computeControlPoints()
 			y += direction->y() * lengthOfPart;
 			z += direction->z() * lengthOfPart;
 
-			points.push_back(vl::fvec3(x, y, z));
+			controlPoints.push_back(vl::fvec3(x, y, z));
 
 			lengthOfPart *= controlPointsDistributionType3Multiplier;
 		}
 	}
 }
 
-void Hair::createHair(vl::RenderingAbstract *pRendering)
+void Hair::createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInterpolatedPointsNumber)
 {		
-	//vl::ref<vl::ArrayFloat3> vertArray = new vl::ArrayFloat3;
-	vertArray = new vl::ArrayFloat3; ///
+	vertArray = new vl::ArrayFloat3;
 	rendering = pRendering;
 
 	createMaterial();
@@ -130,9 +131,11 @@ void Hair::createHair(vl::RenderingAbstract *pRendering)
 	createEffect();
 	createTransform();
 
+	interpolatedPoints = core->computeInterpolatedPoints(&controlPoints, pHairInterpolatedPointsNumber);
+
 	geometry = new vl::Geometry;
 	geometry->setVertexArray(vertArray.get());
-	*vertArray = points;
+	*vertArray = interpolatedPoints;
 	geometry->computeNormals();
 	geometry->drawCalls()->push_back(new vl::DrawArrays(vl::PT_LINE_STRIP, 0, (int)vertArray->size()));
 
@@ -141,23 +144,8 @@ void Hair::createHair(vl::RenderingAbstract *pRendering)
 
 void Hair::repaintHair()
 {
-	*vertArray = points;
+	*vertArray = interpolatedPoints;
 	geometry->updateVBOs();
-}
-
-vl::ref<vl::Actor> *Hair::getHair()
-{		
-	return &actor;
-}
-
-std::vector<vl::fvec3> *Hair::getPoints()
-{
-	return &points;
-}
-
-void Hair::setPoints(std::vector<vl::fvec3> *pPoints) 
-{ 
-	points = *pPoints; 
 }
 
 // TODO
@@ -174,6 +162,7 @@ void Hair::createMaterial()
 // TODO
 void Hair::createLight()
 {
+	// priklad 13 - Create_App_Lights
 	light = new vl::Light(0); 
 	//light->setDiffuse(vl::yellow);
 	//light->setPosition(vl::fvec4(0, 0, 0, 1)); 
@@ -188,7 +177,20 @@ void Hair::createLight()
 void Hair::createTransform()
 {
 	transform = new vl::Transform;
-	rendering->as<vl::Rendering>()->transform()->addChild(transform.get());
+
+    /* shows how to use Transforms if they don't need to be dynamically
+       animated: first of all you don't put them in the rendering()->as<vl::Rendering>()->transform()'s
+       hierarchy like the other transforms; secondly you have to manually call
+       computeWorldMatrix()/computeWorldMatrixRecursive() to compute
+       the final matrix used for the rendering. This way the rendering pipeline
+       won't call computeWorldMatrix()/computeWorldMatrixRecursive()
+       continuously for the Transforms we know are not going to change over time,
+       thus saving precious time. */
+
+	// zrychlenie o cca 25 FPS ak nepridavame do rendering - example 10 Create_App_Transforms
+	// riadok "rendering->as<vl::Rendering>()->transform()->addChild(transform.get());" nahradime "transform->computeWorldMatrix(NULL);"
+	//rendering->as<vl::Rendering>()->transform()->addChild(transform.get());
+	transform->computeWorldMatrix(NULL);
 }
 
 // TODO
@@ -213,11 +215,26 @@ void Hair::createEffect()
 	effect->shader()->setRenderState( material.get() );
 	effect->shader()->setRenderState( light.get() );
 
+	// check shading language version
 	if (GLEW_ARB_shading_language_100 || GLEW_VERSION_3_0)
 	{
-		//vl::ref<vl::GLSLProgram> modelGlsl;
-		//modelGlsl = effect->shader()->gocGLSLProgram();
-		//modelGlsl->attachShader( new vl::GLSLVertexShader("perpixellight.vs") );
-		//modelGlsl->attachShader( new vl::GLSLFragmentShader("perpixellight.fs") );
+		vl::ref<vl::GLSLProgram> modelGlsl;
+
+		// check geometry shaders support
+		if (GLEW_Has_Geometry_Shader)
+		{
+			/*modelGlsl = effect->shader()->gocGLSLProgram();
+			// a vertex shader is always needed when using geometry shaders
+			modelGlsl->attachShader( new vl::GLSLVertexShader("/diffuse.vs") );
+			modelGlsl->attachShader( new vl::GLSLGeometryShader("/triangle_fur.gs") );
+			modelGlsl->setGeometryInputType(vl::GIT_TRIANGLES);
+			modelGlsl->setGeometryOutputType(vl::GOT_TRIANGLE_STRIP);
+			modelGlsl->setGeometryVerticesOut( 3*6 );*/
+		}
+		else
+		{
+			effect->shader()->gocMaterial()->setDiffuse(vl::red);
+			vl::Log::print("GL_NV_geometry_shader4 not supported.\n");
+		}
 	}
 }

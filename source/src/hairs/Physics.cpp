@@ -68,32 +68,6 @@ std::map<unsigned int, std::vector<vl::fvec3>> Physics::getControlPointsPosition
 	return controlPointsPositions;
 }
 
-void Physics::createStack( btCollisionShape* boxShape, float halfCubeSize, int size, float zPos )
-{
-	btTransform trans;
-	trans.setIdentity();
-
-	for(int i=0; i<size; i++)
-	{
-		// This constructs a row, from left to right
-		int rowSize = size - i;
-		for(int j=0; j< rowSize; j++)
-		{
-			btVector3 pos;
-			pos.setValue(
-				-rowSize * halfCubeSize + halfCubeSize + j * 2.0f * halfCubeSize,
-				halfCubeSize + i * halfCubeSize * 2.0f,
-				zPos);
-
-			trans.setOrigin(pos);
-			btScalar mass = 1.f;
-
-			btRigidBody* body = 0;
-			body = localCreateRigidBody(mass,trans,boxShape);
-		}
-	}
-}
-
 void Physics::displayCallback(void) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
@@ -184,7 +158,7 @@ void Physics::createHairs()
 		btRigidBody *lastControlPoint;
 		std::list<btRigidBody*> rigidBodyList;
 	
-		points = itHairs->getPoints();
+		points = itHairs->getControlPoints();
 		itParts = points->begin();
 		lastPointX = itParts->x();
 		lastPointY = itParts->y();

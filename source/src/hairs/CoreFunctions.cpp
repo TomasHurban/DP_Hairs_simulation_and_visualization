@@ -550,3 +550,21 @@ void CoreFunctions::resetIDCounter()
 {
 	hairID = 0;
 }
+
+std::vector<vl::fvec3> CoreFunctions::computeInterpolatedPoints(std::vector<vl::fvec3> *pControlPoints, int pNewPointsNumber)
+{
+	std::vector<vl::fvec3> interpolatedPoints;
+	vl::CatmullRomInterpolatorFVec3 catmull;
+
+    catmull.interpolator()->setPath(*pControlPoints);
+    catmull.interpolator()->setupEndPoints(false);
+
+    for (int i=0; i<pNewPointsNumber; ++i)
+    {
+		// interpolate from 0.0 to 1.0 included
+		float t = (float)i/(pNewPointsNumber-1); 
+		interpolatedPoints.push_back(catmull.computePoint(t));
+    }
+
+	return interpolatedPoints;
+}

@@ -99,6 +99,8 @@ class Settings
 
 		inline unsigned int getHairParticlesNumber() { return hairParticlesNumber; }
 		inline void setHairParticlesNumber(unsigned int pHairParticlesNumber) { hairParticlesNumber = pHairParticlesNumber; }
+		inline unsigned int getHairInterpolatedPointsNumber() { return hairInterpolatedPointsNumber; }
+		inline void setHairInterpolatedPointsNumber(unsigned int pHairInterpolatedPointsNumber) { hairInterpolatedPointsNumber = pHairInterpolatedPointsNumber; }
 
 		inline float getHairColorR() { return hairColorR; }
 		inline void setHairColorR(float pHairColorR) { hairColorR = pHairColorR; }
@@ -267,6 +269,7 @@ class Settings
 		float hairsLength;
 		float hairsWidth;
 		unsigned int hairParticlesNumber;
+		unsigned int hairInterpolatedPointsNumber;
 		float hairColorR;
 		float hairColorG;
 		float hairColorB;

@@ -42,7 +42,7 @@
 
 class MainWindow: public vl::Applet
 {
-	public:
+	public: 
 		/** 
 		*  Constructor
 		*/
@@ -68,15 +68,9 @@ class MainWindow: public vl::Applet
 		*/
 		virtual void keyPressEvent(unsigned short, vl::EKey key);
 
-		/** 
-		*  Displays a closed or open path, with or without points
-		*/
-		vl::Actor* showHair(const std::vector<vl::fvec3>& ctrl_points);
+		//vl::Actor* showHair(const std::vector<vl::fvec3>& ctrl_points);
 
 		inline void setText(vl::String pText);
-
-		//MainWindow *get();
-
 		bool environmentInitialization();
 		bool hairInitialization();
 

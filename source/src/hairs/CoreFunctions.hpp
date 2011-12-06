@@ -7,6 +7,13 @@
 
 #include <vlGraphics/GeometryPrimitives.hpp>
 #include <vlCore/VisualizationLibrary.hpp>
+#include <vlGraphics/Effect.hpp>
+#include <vlGraphics/Light.hpp>
+#include <vlGraphics/Text.hpp>
+#include <vlGraphics/FontManager.hpp>
+#include <vlCore/CatmullRomInterpolator.hpp>
+#include <vlCore/LinearInterpolator.hpp>
+#include <vlGraphics/Extrusion.hpp>
 #include <QtGlobal>
 #include <vector>
 #include <list>
@@ -103,6 +110,15 @@ class CoreFunctions
 
 		// comm TODO
 		void resetIDCounter();
+
+		/**
+		* \fn		std::vector<vl::fvec3> *computeInterpolatedPoints(std::vector<vl::fvec3> *pControlPoints, int pNewPointsNumber)
+		* \brief	Compute interpolated points from control points given as parameter using Catmull-Rom interpolation method
+		* \param	pControlPoints				control points 
+		* \param	pNewPointsNumber			number of created interpolated points 
+		* \return	std::vector<vl::fvec3>*		interpolated points
+		*/
+		std::vector<vl::fvec3> computeInterpolatedPoints(std::vector<vl::fvec3> *pControlPoints, int pNewPointsNumber);
 
 	protected:
 		/**

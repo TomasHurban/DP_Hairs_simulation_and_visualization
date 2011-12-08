@@ -86,18 +86,18 @@ class Hair
 		void setControlPoints(std::vector<vl::fvec3> *pControlPoints) { controlPoints = *pControlPoints; };
 
 		/**
-		* \fn		public std::vector<vl::fvec3> *getInterpolatedPoints()
-		* \brief	Return hair interpolated points
-		* \return	std::vector<vl::fvec3>*		hair interpolated points
+		* \fn		public std::vector<vl::fvec3> *getInterpolationPoints()
+		* \brief	Return hair interpolation points
+		* \return	std::vector<vl::fvec3>*		hair interpolation points
 		*/
-		std::vector<vl::fvec3> *getInterpolatedPoints() { return &interpolatedPoints; };
+		std::vector<vl::fvec3> *getInterpolationPoints() { return &interpolationPoints; };
 
 		/**
-		* \fn		public void setInterpolatedPoints(std::vector<vl::fvec3> *pInterpolatedPoints)
-		* \brief	Set hair interpolated points
-		* \param	pInterpolatedPoints		interpolated points
+		* \fn		public void setInterpolationPoints(std::vector<vl::fvec3> *pInterpolationPoints)
+		* \brief	Set hair interpolation points
+		* \param	pInterpolationPoints		interpolation points
 		*/
-		void setInterpolatedPoints(std::vector<vl::fvec3> *pInterpolatedPoints) { interpolatedPoints = *pInterpolatedPoints; };
+		void setInterpolationPoints(std::vector<vl::fvec3> *pInterpolationPoints) { interpolationPoints = *pInterpolationPoints; };
 
 		vl::Effect *getEffect();
 		void setEffect(vl::Effect);
@@ -162,10 +162,10 @@ class Hair
 		std::vector<vl::fvec3> controlPoints;
 
 		/**
-		* std::vector<vl::fvec3> interpolatedPoints
-		* \brief	Vector of hair interpolated control points 
+		* std::vector<vl::fvec3> interpolationPoints
+		* \brief	Vector of hair interpolation control points 
 		*/
-		std::vector<vl::fvec3> interpolatedPoints;
+		std::vector<vl::fvec3> interpolationPoints;
 
 		/**
 		* vl::fvec3 *direction

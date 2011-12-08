@@ -87,7 +87,7 @@ void MainWindow::updateScene()
 					itHairs->setControlPoints(controlPoints);
 
 					// compute interpolated points from control points
-					itHairs->setInterpolatedPoints(&(core->computeInterpolatedPoints(controlPoints, settings->getHairInterpolatedPointsNumber())));
+					itHairs->setInterpolationPoints(&(core->computeInterpolationPoints(controlPoints, settings->getHairInterpolationPointsNumber())));
 
 					// repaint hair
 					itHairs->repaintHair();
@@ -204,7 +204,7 @@ void MainWindow::keyPressEvent(unsigned short, vl::EKey key)
 	// Menu
 	if (key == vl::Key_M)
 	{
-		if (settingsWindow->isHidden()) 
+		/*if (settingsWindow->isHidden()) 
 		{
 			settingsWindow->show();
 			vl::Log::print( Say("Menu displayed\n") );
@@ -214,7 +214,7 @@ void MainWindow::keyPressEvent(unsigned short, vl::EKey key)
 		{
 			vl::Log::print( Say("Menu hidden\n") );
 			text->setText( Say("Ready") );
-		}
+		}*/
 	}
 
 	// Show / hide simulation window
@@ -358,7 +358,7 @@ bool MainWindow::hairInitialization()
 		}
 
 		Hair *newHair = new Hair(core->getHairID(), settings->getHairsLength(), settings->getHairsWidth(), settings->getHairParticlesNumber(), hairColor, hairStartPosition, direction, settings->getHairType(), settings->getHairControlPointsDistributionType(), settings->getHairControlPointsDistributionType3Multiplier());
-		newHair->createHair(rendering(), settings->getHairInterpolatedPointsNumber());
+		newHair->createHair(rendering(), settings->getHairInterpolationPointsNumber());
 		// TODO mozno vytvorit len 1 effect a transformaciu a priradit ju kazdemu vytvorenemu vlasu
 		sceneManager()->tree()->addActor(newHair->getHair()->get());
 		hairs.push_back(*newHair);

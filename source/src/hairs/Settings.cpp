@@ -67,7 +67,7 @@ void Settings::setSettings(std::map<std::string, std::string> pSettings)
 	hairsLength = atof(getSettingValue("hairs_length").c_str());
 	hairsWidth = atof(getSettingValue("hairs_width").c_str());
 	hairParticlesNumber = atoi(getSettingValue("hair_particles_number").c_str());
-	hairInterpolatedPointsNumber = atoi(getSettingValue("hair_interpolated_points_number").c_str());
+	hairInterpolationPointsNumber = atoi(getSettingValue("hair_interpol_number").c_str());
 	hairColorR = atof(getSettingValue("hair_color_r").c_str());
 	hairColorG = atof(getSettingValue("hair_color_g").c_str());
 	hairColorB = atof(getSettingValue("hair_color_b").c_str());
@@ -155,10 +155,21 @@ void Settings::setSettings(std::map<std::string, std::string> pSettings)
 	createFormat();
 }
 
-inline std::string Settings::getSettingValue(std::string pSettingName)
+std::string Settings::getSettingValue(std::string pSettingName)
 {
-	// TODO: check if it really find something
-	return settings->find(pSettingName)->second;
+	std::map<std::string, std::string>::iterator it;
+
+	it = settings->find(pSettingName);
+
+	if (it != settings->end())
+	{
+		return it->second;
+	}
+	else
+	{
+		vl::Log::error(Say("Configuration file corrupted.\nCannot find \"%s\" parameter.\n") << pSettingName);
+		exit(1);
+	}
 }
 
 void Settings::createFormat()

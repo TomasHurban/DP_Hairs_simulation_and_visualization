@@ -112,13 +112,13 @@ class CoreFunctions
 		void resetIDCounter();
 
 		/**
-		* \fn		std::vector<vl::fvec3> *computeInterpolatedPoints(std::vector<vl::fvec3> *pControlPoints, int pNewPointsNumber)
-		* \brief	Compute interpolated points from control points given as parameter using Catmull-Rom interpolation method
+		* \fn		std::vector<vl::fvec3> *computeInterpolationPoints(std::vector<vl::fvec3> *pControlPoints, int pNewPointsNumber)
+		* \brief	Compute interpolation points from control points given as parameter using Catmull-Rom interpolation method
 		* \param	pControlPoints				control points 
-		* \param	pNewPointsNumber			number of created interpolated points 
+		* \param	pNewPointsNumber			number of created interpolation points 
 		* \return	std::vector<vl::fvec3>*		interpolated points
 		*/
-		std::vector<vl::fvec3> computeInterpolatedPoints(std::vector<vl::fvec3> *pControlPoints, int pNewPointsNumber);
+		std::vector<vl::fvec3> computeInterpolationPoints(std::vector<vl::fvec3> *pControlPoints, int pNewPointsNumber);
 
 	protected:
 		/**

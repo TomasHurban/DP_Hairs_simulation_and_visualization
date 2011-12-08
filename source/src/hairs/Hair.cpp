@@ -120,7 +120,7 @@ void Hair::computeControlPoints()
 	}
 }
 
-void Hair::createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInterpolatedPointsNumber)
+void Hair::createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInterpolationPointsNumber)
 {		
 	vertArray = new vl::ArrayFloat3;
 	rendering = pRendering;
@@ -131,11 +131,11 @@ void Hair::createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInter
 	createEffect();
 	createTransform();
 
-	interpolatedPoints = core->computeInterpolatedPoints(&controlPoints, pHairInterpolatedPointsNumber);
+	interpolationPoints = core->computeInterpolationPoints(&controlPoints, pHairInterpolationPointsNumber);
 
 	geometry = new vl::Geometry;
 	geometry->setVertexArray(vertArray.get());
-	*vertArray = interpolatedPoints;
+	*vertArray = interpolationPoints;
 	geometry->computeNormals();
 	geometry->drawCalls()->push_back(new vl::DrawArrays(vl::PT_LINE_STRIP, 0, (int)vertArray->size()));
 
@@ -144,7 +144,7 @@ void Hair::createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInter
 
 void Hair::repaintHair()
 {
-	*vertArray = interpolatedPoints;
+	*vertArray = interpolationPoints;
 	geometry->updateVBOs();
 }
 

@@ -1,6 +1,8 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include <vlCore/Log.hpp>
+#include <vlGraphics/Applet.hpp>
 #include <vlGraphics/OpenGLContext.hpp>
 #include <vlQt4/Qt4Widget.hpp>
 #include <map>
@@ -99,8 +101,8 @@ class Settings
 
 		inline unsigned int getHairParticlesNumber() { return hairParticlesNumber; }
 		inline void setHairParticlesNumber(unsigned int pHairParticlesNumber) { hairParticlesNumber = pHairParticlesNumber; }
-		inline unsigned int getHairInterpolatedPointsNumber() { return hairInterpolatedPointsNumber; }
-		inline void setHairInterpolatedPointsNumber(unsigned int pHairInterpolatedPointsNumber) { hairInterpolatedPointsNumber = pHairInterpolatedPointsNumber; }
+		inline unsigned int getHairInterpolationPointsNumber() { return hairInterpolationPointsNumber; }
+		inline void setHairInterpolationPointsNumber(unsigned int pHairInterpolationPointsNumber) { hairInterpolationPointsNumber = pHairInterpolationPointsNumber; }
 
 		inline float getHairColorR() { return hairColorR; }
 		inline void setHairColorR(float pHairColorR) { hairColorR = pHairColorR; }
@@ -227,7 +229,7 @@ class Settings
 
 	protected:
 
-		inline std::string getSettingValue(std::string pSettingName);
+		std::string getSettingValue(std::string pSettingName);
 		void createFormat();
 		std::map<std::string, std::string> *settings;
 		bool errorLoadingSettings;
@@ -269,7 +271,7 @@ class Settings
 		float hairsLength;
 		float hairsWidth;
 		unsigned int hairParticlesNumber;
-		unsigned int hairInterpolatedPointsNumber;
+		unsigned int hairInterpolationPointsNumber;
 		float hairColorR;
 		float hairColorG;
 		float hairColorB;

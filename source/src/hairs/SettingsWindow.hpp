@@ -1,6 +1,7 @@
 #ifndef WINDOW_SETTINGS_H
 #define WINDOW_SETTINGS_H
 
+#include <iostream>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDialog>
@@ -15,6 +16,7 @@
 #include <map>
 #include <QColorDialog>
 #include <QtGui>
+#include <QSlider>
 
 class ControlTab : public QWidget
 {
@@ -38,19 +40,30 @@ class HairsTab : public QWidget
 
 	private:
 		QColor hairColor;
-		QComboBox *hairLengthComboBox;
-		QComboBox *hairNumberComboBox;
 		QComboBox *hairTypeComboBox;
 		QLabel *hairColorLabel;
 		QLabel *hairLengthLabel;
 		QLabel *hairNumberLabel;
 		QLabel *hairTypeLabel;
+		QLabel *hairWidthLabel;
+		QLabel *hairParticlesLabel;
+		QLabel *hairInterpolLabel;
 		QPushButton *hairColorButton;
+		QSlider *hairLengthSlider;
+		QSlider *hairNumberSlider;
+		QSlider *hairWidthSlider;
+		QSlider *hairParticlesSlider;
+		QSlider *hairInterpolSlider;
 		QString colorText;
 		QVBoxLayout *hairsLayout;
 
 	private slots:
-		void setHairColor();
+		void hairColorChanged();
+		void hairLengthChanged();
+		void hairNumberChanged();
+		void hairWidthChanged();
+		void hairParticlesChanged();
+		void hairInterpolChanged();
 };
 
 class EnvironmentTab : public QWidget
@@ -62,6 +75,7 @@ class EnvironmentTab : public QWidget
 
 	private:
 		QCheckBox *envTextCheckBox;
+		QCheckBox *envSimulationShowCheckBox;
 		QColor envBgColor;
 		QComboBox *envMultisamplingComboBox;
 		QLabel *envBgColorLabel;

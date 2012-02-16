@@ -204,17 +204,17 @@ void MainWindow::keyPressEvent(unsigned short, vl::EKey key)
 	// Menu
 	if (key == vl::Key_M)
 	{
-		/*if (settingsWindow->isHidden()) 
+		if (settingsWindow->isHidden()) 
 		{
 			settingsWindow->show();
 			vl::Log::print( Say("Menu displayed\n") );
-			text->setText( Say("Menu displayed") );
+			//text->setText( Say("Menu displayed") );
 		}
 		else
 		{
 			vl::Log::print( Say("Menu hidden\n") );
-			text->setText( Say("Ready") );
-		}*/
+			//text->setText( Say("Ready") );
+		}
 	}
 
 	// Show / hide simulation window

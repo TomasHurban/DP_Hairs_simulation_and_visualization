@@ -1,12 +1,17 @@
 #include "SettingsWindow.hpp"
 
-SettingsWindow::SettingsWindow(QWidget *parent) : QDialog(parent)
+SettingsWindow::SettingsWindow(Settings *pSettings, QWidget *parent) : QDialog(parent)
 {
+	controlTab = new ControlTab();
+	hairsTab = new HairsTab();
+	environmentTab = new EnvironmentTab();
+	aboutTab = new AboutTab();
+
     tabWidget = new QTabWidget;
-    tabWidget->addTab(new ControlTab(), tr("Controls"));
-    tabWidget->addTab(new HairsTab(), tr("Hairs settings"));
-    tabWidget->addTab(new EnvironmentTab(), tr("Environment Settings"));
-    tabWidget->addTab(new AboutTab(), tr("About"));
+    tabWidget->addTab(controlTab, tr("Controls"));
+    tabWidget->addTab(hairsTab, tr("Hairs settings"));
+    tabWidget->addTab(environmentTab, tr("Environment Settings"));
+    tabWidget->addTab(aboutTab, tr("About"));
 
     buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
 
@@ -19,6 +24,9 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QDialog(parent)
     setLayout(mainLayout);
 
     setWindowTitle(tr("Menu"));
+
+	hairsTab->setValues(pSettings);
+	environmentTab->setValues(pSettings);
 }
 
 ControlTab::ControlTab(QWidget *parent) : QWidget(parent)
@@ -51,26 +59,31 @@ HairsTab::HairsTab(QWidget *parent) : QWidget(parent)
 	hairNumberSlider = new QSlider(Qt::Horizontal, this);
 	hairNumberSlider->setRange(50, 10000);
 	connect(hairNumberSlider, SIGNAL(valueChanged(int)), this, SLOT(hairNumberChanged()));
+	hairNumberChanged();
 
 	hairLengthLabel = new QLabel(tr("Hairs length: "));
 	hairLengthSlider = new QSlider(Qt::Horizontal, this);
 	hairLengthSlider->setRange(1, 100);
 	connect(hairLengthSlider, SIGNAL(valueChanged(int)), this, SLOT(hairLengthChanged()));
+	hairLengthChanged();
 
 	hairWidthLabel = new QLabel(tr("Hairs width: "));
 	hairWidthSlider = new QSlider(Qt::Horizontal, this);
 	hairWidthSlider->setRange(5, 55);
 	connect(hairWidthSlider, SIGNAL(valueChanged(int)), this, SLOT(hairWidthChanged()));
+	hairWidthChanged();
 
 	hairParticlesLabel = new QLabel(tr("Hair particles number: "));
 	hairParticlesSlider = new QSlider(Qt::Horizontal, this);
 	hairParticlesSlider->setRange(1, 50);
 	connect(hairParticlesSlider, SIGNAL(valueChanged(int)), this, SLOT(hairParticlesChanged()));
+	hairParticlesChanged();
 
 	hairInterpolLabel = new QLabel(tr("Hair interpolation points number: "));
 	hairInterpolSlider = new QSlider(Qt::Horizontal, this);
 	hairInterpolSlider->setRange(1, 1000);
 	connect(hairInterpolSlider, SIGNAL(valueChanged(int)), this, SLOT(hairInterpolChanged()));
+	hairInterpolChanged();
 
 	hairColorLabel = new QLabel(tr("Hairs color: "));
 	hairColorButton = new QPushButton(tr("Change hair color"));
@@ -104,7 +117,7 @@ void HairsTab::hairNumberChanged()
 	text = "Hairs number: ";
 	text.append(valueString);
 
-	// TODO set value and maybe save to config
+	// TODO set value 
 	
 	hairNumberLabel->setText(tr(text.c_str()));
 }
@@ -120,7 +133,7 @@ void HairsTab::hairLengthChanged()
 	text = "Hairs length: ";
 	text.append(valueString);
 
-	// TODO set value and maybe save to config
+	// TODO set value 
 	
 	hairLengthLabel->setText(tr(text.c_str()));
 }
@@ -136,7 +149,7 @@ void HairsTab::hairWidthChanged()
 	text = "Hairs width: ";
 	text.append(valueString);
 
-	// TODO set value and maybe save to config
+	// TODO set value 
 	
 	hairWidthLabel->setText(tr(text.c_str()));
 }
@@ -151,7 +164,7 @@ void HairsTab::hairParticlesChanged()
 	text = "Hair particles number: ";
 	text.append(valueString);
 
-	// TODO set value and maybe save to config
+	// TODO set value 
 	
 	hairParticlesLabel->setText(tr(text.c_str()));
 }
@@ -173,22 +186,23 @@ void HairsTab::hairInterpolChanged()
 
 void HairsTab::hairColorChanged()
 {
+	hairColor = QColorDialog::getColor(Qt::yellow, this);
+	changeHairColorButton(hairColor);
+}
+
+void HairsTab::changeHairColorButton(QColor pNewColor)
+{
 	colorText = "background-color: ";
 
-	hairColor = QColorDialog::getColor(Qt::yellow, this);
-
-    if (hairColor.isValid()) 
+    if (pNewColor.isValid()) 
 	{
-		hairColorButton->setStyleSheet(colorText + hairColor.name());
+		hairColorButton->setStyleSheet(colorText + pNewColor.name());
     }
-	// TODO
 }
 
 EnvironmentTab::EnvironmentTab(QWidget *parent) : QWidget(parent)
 {
-	envBgColorLabel = new QLabel(tr("Background color:"));
-	envBgColorButton = new QPushButton(tr("Change background color"));
-	connect(envBgColorButton, SIGNAL(clicked()), this, SLOT(setBgColor()));
+	empty = new QLabel(tr(" "));
 
 	envMultisamplingLabel = new QLabel(tr("Multisampling:"));
 	envMultisamplingComboBox = new QComboBox;
@@ -201,13 +215,17 @@ EnvironmentTab::EnvironmentTab(QWidget *parent) : QWidget(parent)
 
 	envSimulationShowCheckBox = new QCheckBox;
 	envSimulationShowCheckBox->setCheckable(true);
-	envSimulationShowCheckBox->setChecked(true); //TODO nacitat
+	envSimulationShowCheckBox->setChecked(true); 
 	envSimulationShowCheckBox->setText(tr("Show simulation window"));
 
 	envTextCheckBox = new QCheckBox;
 	envTextCheckBox->setCheckable(true);
-	envTextCheckBox->setChecked(true);//TODO nacitat
+	envTextCheckBox->setChecked(true);
 	envTextCheckBox->setText(tr("Show text label"));
+
+	envBgColorLabel = new QLabel(tr("Background color:"));
+	envBgColorButton = new QPushButton(tr("Change background color"));
+	connect(envBgColorButton, SIGNAL(clicked()), this, SLOT(bgColorChanged()));
 
 	envLayout = new QVBoxLayout;
     envLayout->addWidget(envMultisamplingLabel);
@@ -216,18 +234,30 @@ EnvironmentTab::EnvironmentTab(QWidget *parent) : QWidget(parent)
     envLayout->addWidget(envTextCheckBox);
     envLayout->addWidget(envBgColorLabel);
     envLayout->addWidget(envBgColorButton);
+    envLayout->addWidget(empty);
+    envLayout->addWidget(empty);
+    envLayout->addWidget(empty);
+    envLayout->addWidget(empty);
+    envLayout->addWidget(empty);
+    envLayout->addWidget(empty);
+    envLayout->addWidget(empty);
+    envLayout->addWidget(empty);
     setLayout(envLayout);
 }
 
-void EnvironmentTab::setBgColor()
+void EnvironmentTab::bgColorChanged()
+{
+	envBgColor = QColorDialog::getColor(Qt::gray, this);
+	changeBgColorButton(envBgColor);
+}
+
+void EnvironmentTab::changeBgColorButton(QColor pNewColor)
 {
 	colorText = "background-color: ";
 
-	envBgColor = QColorDialog::getColor(Qt::gray, this);
-
-    if (envBgColor.isValid()) 
+    if (pNewColor.isValid()) 
 	{
-		envBgColorButton->setStyleSheet(colorText + envBgColor.name());
+		envBgColorButton->setStyleSheet(colorText + pNewColor.name());
     }
 }
 
@@ -239,29 +269,42 @@ AboutTab::AboutTab(QWidget *parent) : QWidget(parent)
     aboutLayout->addWidget(aboutLabel);
     setLayout(aboutLayout);
 }
-/*
-std::map<std::string, std::string> *SettingsWindow::getSettings()
+
+void HairsTab::setValues(Settings* pSettings)
 {
-	settings.clear();
-	std::string key;
-	std::string value;
-
-	// TODO
-
-	return &settings;
+	hairTypeComboBox->setCurrentIndex(pSettings->getHairType() - 1);
+	hairNumberSlider->setValue(pSettings->getHairsNumber());
+	hairLengthSlider->setValue(pSettings->getHairsLength() * 10);
+	hairWidthSlider->setValue(((pSettings->getHairsWidth() - 0.5) / 0.05) + 5);
+	hairParticlesSlider->setValue(pSettings->getHairParticlesNumber());
+	hairInterpolSlider->setValue(pSettings->getHairInterpolationPointsNumber());
+	hairColor.setRgb(pSettings->getHairColorR()*255, pSettings->getHairColorG()*255, pSettings->getHairColorB()*255, pSettings->getHairColorA()*255);
+	changeHairColorButton(hairColor);
 }
 
-bool SettingsWindow::setSettings(std::map<std::string, std::string> *pSettings)
+void EnvironmentTab::setValues(Settings* pSettings)
 {
-	bool error = false;
+	if (pSettings->getFormatMultisamplingValue() == 2)
+		envMultisamplingComboBox->setCurrentIndex(1);
+	else if (pSettings->getFormatMultisamplingValue() == 4)
+		envMultisamplingComboBox->setCurrentIndex(2);
+	else if (pSettings->getFormatMultisamplingValue() == 8)
+		envMultisamplingComboBox->setCurrentIndex(3);
+	else if (pSettings->getFormatMultisamplingValue() == 16)
+		envMultisamplingComboBox->setCurrentIndex(4);
+	else
+		envMultisamplingComboBox->setCurrentIndex(0);
 
-	// TODO
+	if (pSettings->getFormatMultisamplingEnabled() == true)
+		envSimulationShowCheckBox->setChecked(true);
+	else
+		envSimulationShowCheckBox->setChecked(false);
 
-	return error;
-}*/
-/*
-std::string SettingsWindow::getSettingValue(std::string pSettingName)
-{
-	return settings.find(pSettingName)->second;
+	if (pSettings->getTextEnabled() == true)
+		envTextCheckBox->setChecked(true);
+	else
+		envTextCheckBox->setChecked(false);
+
+	envBgColor.setRgb(pSettings->getWindowBgColorR()*255, pSettings->getWindowBgColorG()*255, pSettings->getWindowBgColorB()*255, pSettings->getWindowBgColorA()*255);
+	changeBgColorButton(envBgColor);
 }
-*/

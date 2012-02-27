@@ -22,7 +22,7 @@ MainWindow::MainWindow(Settings *pSettings, int pArgc, char **pArgv)
 	refreshTimer = 1;
 
 	core = new CoreFunctions();
-	settingsWindow = new SettingsWindow();
+	settingsWindow = new SettingsWindow(pSettings);
 	physics = new Physics();
 
 	refreshSpeed = getRefreshSpeed(pSettings->getSimulationSynchSpeed());

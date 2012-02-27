@@ -18,6 +18,8 @@
 #include <QtGui>
 #include <QSlider>
 
+#include "Settings.hpp"
+
 class ControlTab : public QWidget
 {
     Q_OBJECT
@@ -37,6 +39,8 @@ class HairsTab : public QWidget
 
 	public:
 		HairsTab(QWidget *parent = 0);
+		void setValues(Settings *pSettings);
+		void changeHairColorButton(QColor pNewColor);
 
 	private:
 		QColor hairColor;
@@ -72,6 +76,8 @@ class EnvironmentTab : public QWidget
 
 	public:
 		EnvironmentTab(QWidget *parent = 0);
+		void setValues(Settings *pSettings);
+		void changeBgColorButton(QColor pNewColor);
 
 	private:
 		QCheckBox *envTextCheckBox;
@@ -83,9 +89,10 @@ class EnvironmentTab : public QWidget
 		QPushButton *envBgColorButton;
 		QString colorText;
 		QVBoxLayout *envLayout;
+		QLabel *empty;
 
 	private slots:
-		void setBgColor();
+		void bgColorChanged();
 };
 
 class AboutTab : public QWidget
@@ -105,12 +112,16 @@ class SettingsWindow : public QDialog
     Q_OBJECT
 
 	public:
-		SettingsWindow(QWidget *parent = 0);
+		SettingsWindow(Settings *pSettings, QWidget *parent = 0);
 		std::map<std::string, std::string> *getSettings();
 		bool setSettings(std::map<std::string, std::string> *pSettings);
 		//std::string getSettingValue(std::string pSettingName);
 
 	private:
+		ControlTab* controlTab;
+		HairsTab* hairsTab;
+		EnvironmentTab* environmentTab;
+		AboutTab* aboutTab;
 		QTabWidget *tabWidget;
 		QDialogButtonBox *buttonBox;
 		QVBoxLayout *mainLayout;

@@ -22,7 +22,7 @@ MainWindow::MainWindow(Settings *pSettings, int pArgc, char **pArgv)
 	refreshTimer = 1;
 
 	core = new CoreFunctions();
-	settingsWindow = new SettingsWindow(pSettings);
+	settingsWindow = new SettingsWindow(&settings);
 	physics = new Physics();
 
 	refreshSpeed = getRefreshSpeed(pSettings->getSimulationSynchSpeed());
@@ -116,6 +116,7 @@ void MainWindow::updateScene()
 		mFPSTimer.start();
 		openglContext()->setWindowTitle( vl::Say("[%.1n] %s") << fps() << "Hairs simulation and visualization" );
 		vl::Log::print( vl::Say("FPS=%.1n\n") << fps() );
+		//vl::Log::print( vl::Say("length=%.1n\n") << settings->getHairsLength() );
 	}
 }
 
@@ -208,12 +209,6 @@ void MainWindow::keyPressEvent(unsigned short, vl::EKey key)
 		{
 			settingsWindow->show();
 			vl::Log::print( Say("Menu displayed\n") );
-			//text->setText( Say("Menu displayed") );
-		}
-		else
-		{
-			vl::Log::print( Say("Menu hidden\n") );
-			//text->setText( Say("Ready") );
 		}
 	}
 

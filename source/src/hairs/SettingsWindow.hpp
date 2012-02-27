@@ -39,7 +39,7 @@ class HairsTab : public QWidget
 
 	public:
 		HairsTab(QWidget *parent = 0);
-		void setValues(Settings *pSettings);
+		void setValues();
 		void changeHairColorButton(QColor pNewColor);
 
 	private:
@@ -76,7 +76,7 @@ class EnvironmentTab : public QWidget
 
 	public:
 		EnvironmentTab(QWidget *parent = 0);
-		void setValues(Settings *pSettings);
+		void setValues();
 		void changeBgColorButton(QColor pNewColor);
 
 	private:
@@ -90,9 +90,21 @@ class EnvironmentTab : public QWidget
 		QString colorText;
 		QVBoxLayout *envLayout;
 		QLabel *empty;
+		QLabel *sizeCoefLabel;
+		QLabel *controlPointRadiusLabel;
+		QLabel *controlPointMassLabel;
+		QLabel *hairMassLabel;
+		QSlider *sizeCoefSlider;
+		QSlider *controlPointRadiusSlider;
+		QSlider *controlPointMassSlider;
+		QSlider *hairMassSlider;
 
 	private slots:
 		void bgColorChanged();
+		void sizeCoefChanged();
+		void controlPointRadiusChanged();
+		void controlPointMassChanged();
+		void hairMassChanged();
 };
 
 class AboutTab : public QWidget
@@ -112,20 +124,19 @@ class SettingsWindow : public QDialog
     Q_OBJECT
 
 	public:
-		SettingsWindow(Settings *pSettings, QWidget *parent = 0);
-		std::map<std::string, std::string> *getSettings();
-		bool setSettings(std::map<std::string, std::string> *pSettings);
-		//std::string getSettingValue(std::string pSettingName);
+		SettingsWindow(Settings** pSettings, QWidget* parent = 0);
 
 	private:
 		ControlTab* controlTab;
 		HairsTab* hairsTab;
 		EnvironmentTab* environmentTab;
 		AboutTab* aboutTab;
-		QTabWidget *tabWidget;
-		QDialogButtonBox *buttonBox;
-		QVBoxLayout *mainLayout;
-		std::map<std::string, std::string> settings;
+		QTabWidget* tabWidget;
+		QDialogButtonBox* buttonBox;
+		QVBoxLayout* mainLayout;
+
+	private slots:
+		void accept();
 };
 
 #endif

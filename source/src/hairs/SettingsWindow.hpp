@@ -41,6 +41,7 @@ class HairsTab : public QWidget
 		HairsTab(QWidget *parent = 0);
 		void setValues();
 		void changeHairColorButton(QColor pNewColor);
+		bool change;
 
 	private:
 		QColor hairColor;
@@ -78,6 +79,7 @@ class EnvironmentTab : public QWidget
 		EnvironmentTab(QWidget *parent = 0);
 		void setValues();
 		void changeBgColorButton(QColor pNewColor);
+		bool change;
 
 	private:
 		QCheckBox *envTextCheckBox;
@@ -124,7 +126,7 @@ class SettingsWindow : public QDialog
     Q_OBJECT
 
 	public:
-		SettingsWindow(Settings** pSettings, QWidget* parent = 0);
+		SettingsWindow(Settings** pSettings, bool* pChange, QWidget* parent = 0);
 
 	private:
 		ControlTab* controlTab;
@@ -132,11 +134,12 @@ class SettingsWindow : public QDialog
 		EnvironmentTab* environmentTab;
 		AboutTab* aboutTab;
 		QTabWidget* tabWidget;
-		QDialogButtonBox* buttonBox;
+		QPushButton* applyButton;
 		QVBoxLayout* mainLayout;
+		bool* change;
 
 	private slots:
-		void accept();
+		void applyWindow();
 };
 
 #endif

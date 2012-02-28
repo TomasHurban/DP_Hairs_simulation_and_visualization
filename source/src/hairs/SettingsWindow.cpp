@@ -2,9 +2,10 @@
 
 Settings** settings;
 
-SettingsWindow::SettingsWindow(Settings** pSettings, QWidget* parent) : QDialog(parent)
+SettingsWindow::SettingsWindow(Settings** pSettings, bool* pChange, QWidget* parent) : QDialog(parent)
 {
 	settings = pSettings;
+	change = pChange;
 
 	controlTab = new ControlTab();
 	hairsTab = new HairsTab();
@@ -17,14 +18,12 @@ SettingsWindow::SettingsWindow(Settings** pSettings, QWidget* parent) : QDialog(
     tabWidget->addTab(environmentTab, tr("Environment and physics"));
     tabWidget->addTab(aboutTab, tr("About"));
 
-    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	applyButton = new QPushButton("&Apply", this);
+	connect(applyButton, SIGNAL(clicked()), this, SLOT(applyWindow()));
 
     mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);
-    mainLayout->addWidget(buttonBox);
+    mainLayout->addWidget(applyButton);
     setLayout(mainLayout);
 
     setWindowTitle(tr("Menu"));
@@ -63,31 +62,26 @@ HairsTab::HairsTab(QWidget *parent) : QWidget(parent)
 	hairNumberSlider = new QSlider(Qt::Horizontal, this);
 	hairNumberSlider->setRange(50, 10000);
 	connect(hairNumberSlider, SIGNAL(valueChanged(int)), this, SLOT(hairNumberChanged()));
-	hairNumberChanged();
 
 	hairLengthLabel = new QLabel(tr("Hairs length: "));
 	hairLengthSlider = new QSlider(Qt::Horizontal, this);
 	hairLengthSlider->setRange(1, 100);
 	connect(hairLengthSlider, SIGNAL(valueChanged(int)), this, SLOT(hairLengthChanged()));
-	hairLengthChanged();
 
 	hairWidthLabel = new QLabel(tr("Hairs width: "));
 	hairWidthSlider = new QSlider(Qt::Horizontal, this);
 	hairWidthSlider->setRange(5, 55);
 	connect(hairWidthSlider, SIGNAL(valueChanged(int)), this, SLOT(hairWidthChanged()));
-	hairWidthChanged();
 
 	hairParticlesLabel = new QLabel(tr("Hair particles number: "));
 	hairParticlesSlider = new QSlider(Qt::Horizontal, this);
 	hairParticlesSlider->setRange(1, 50);
 	connect(hairParticlesSlider, SIGNAL(valueChanged(int)), this, SLOT(hairParticlesChanged()));
-	hairParticlesChanged();
 
 	hairInterpolLabel = new QLabel(tr("Hair interpolation points number: "));
 	hairInterpolSlider = new QSlider(Qt::Horizontal, this);
 	hairInterpolSlider->setRange(1, 1000);
 	connect(hairInterpolSlider, SIGNAL(valueChanged(int)), this, SLOT(hairInterpolChanged()));
-	hairInterpolChanged();
 
 	hairColorLabel = new QLabel(tr("Hairs color: "));
 	hairColorButton = new QPushButton(tr("Change hair color"));
@@ -109,6 +103,8 @@ HairsTab::HairsTab(QWidget *parent) : QWidget(parent)
     hairsLayout->addWidget(hairColorLabel);
     hairsLayout->addWidget(hairColorButton);
     setLayout(hairsLayout);
+
+	change = false;
 }
 
 void HairsTab::hairNumberChanged()
@@ -121,7 +117,8 @@ void HairsTab::hairNumberChanged()
 	text = "Hairs number: ";
 	text.append(valueString);
 
-	// TODO set value 
+	(*settings)->setHairsNumber(value);
+	change = true;
 	
 	hairNumberLabel->setText(tr(text.c_str()));
 }
@@ -137,8 +134,8 @@ void HairsTab::hairLengthChanged()
 	text = "Hairs length: ";
 	text.append(valueString);
 
-	// TODO set value az po stlaceni ok 
-	//(*settings)->setHairsLength(hairLength);
+	(*settings)->setHairsLength(hairLength);
+	change = true;
 	
 	hairLengthLabel->setText(tr(text.c_str()));
 }
@@ -154,7 +151,8 @@ void HairsTab::hairWidthChanged()
 	text = "Hairs width: ";
 	text.append(valueString);
 
-	// TODO set value 
+	(*settings)->setHairsWidth(hairWidth);
+	change = true;
 	
 	hairWidthLabel->setText(tr(text.c_str()));
 }
@@ -169,7 +167,8 @@ void HairsTab::hairParticlesChanged()
 	text = "Hair particles number: ";
 	text.append(valueString);
 
-	// TODO set value 
+	(*settings)->setHairParticlesNumber(value);
+	change = true;
 	
 	hairParticlesLabel->setText(tr(text.c_str()));
 }
@@ -184,7 +183,8 @@ void HairsTab::hairInterpolChanged()
 	text = "Hair interpolation points number: ";
 	text.append(valueString);
 
-	// TODO set value and maybe save to config
+	(*settings)->setHairInterpolationPointsNumber(value);
+	change = true;
 	
 	hairInterpolLabel->setText(tr(text.c_str()));
 }
@@ -193,6 +193,9 @@ void HairsTab::hairColorChanged()
 {
 	hairColor = QColorDialog::getColor(Qt::yellow, this);
 	changeHairColorButton(hairColor);
+
+	// TODO set color - (*settings)->setHairColorR(hairColor);
+	change = true;
 }
 
 void HairsTab::changeHairColorButton(QColor pNewColor)
@@ -232,25 +235,21 @@ EnvironmentTab::EnvironmentTab(QWidget *parent) : QWidget(parent)
 	sizeCoefSlider = new QSlider(Qt::Horizontal, this);
 	sizeCoefSlider->setRange(1, 10);
 	connect(sizeCoefSlider, SIGNAL(valueChanged(int)), this, SLOT(sizeCoefChanged()));
-	sizeCoefChanged();
 
 	controlPointRadiusLabel = new QLabel(tr("Control points radius: "));
 	controlPointRadiusSlider = new QSlider(Qt::Horizontal, this);
 	controlPointRadiusSlider->setRange(1, 20);
 	connect(controlPointRadiusSlider, SIGNAL(valueChanged(int)), this, SLOT(controlPointRadiusChanged()));
-	controlPointRadiusChanged();
 
 	controlPointMassLabel = new QLabel(tr("Control points mass: "));
 	controlPointMassSlider = new QSlider(Qt::Horizontal, this);
 	controlPointMassSlider->setRange(1, 10);
 	connect(controlPointMassSlider, SIGNAL(valueChanged(int)), this, SLOT(controlPointMassChanged()));
-	controlPointMassChanged();
 
 	hairMassLabel = new QLabel(tr("Hairs mass: "));
 	hairMassSlider = new QSlider(Qt::Horizontal, this);
 	hairMassSlider->setRange(1, 10);
 	connect(hairMassSlider, SIGNAL(valueChanged(int)), this, SLOT(hairMassChanged()));
-	hairMassChanged();
 
 	envBgColorLabel = new QLabel(tr("Background color:"));
 	envBgColorButton = new QPushButton(tr("Change background color"));
@@ -272,6 +271,8 @@ EnvironmentTab::EnvironmentTab(QWidget *parent) : QWidget(parent)
     envLayout->addWidget(envBgColorLabel);
     envLayout->addWidget(envBgColorButton);
     setLayout(envLayout);
+
+	change = false;
 }
 
 void EnvironmentTab::sizeCoefChanged()
@@ -284,7 +285,8 @@ void EnvironmentTab::sizeCoefChanged()
 	text = "Simulation objects size coefficient: ";
 	text.append(valueString);
 
-	// TODO set value 
+	(*settings)->setSimulationSizeCoef(value);
+	change = true;
 	
 	sizeCoefLabel->setText(tr(text.c_str()));
 }
@@ -300,7 +302,8 @@ void EnvironmentTab::controlPointRadiusChanged()
 	text = "Control points radius: ";
 	text.append(valueString);
 
-	// TODO set value  
+	(*settings)->setSimulationControlPointRadius(controlPointRadius);
+	change = true;
 	
 	controlPointRadiusLabel->setText(tr(text.c_str()));
 }
@@ -316,7 +319,8 @@ void EnvironmentTab::controlPointMassChanged()
 	text = "Control points mass: ";
 	text.append(valueString);
 
-	// TODO set value  
+	(*settings)->setSimulationControlPointMass(controlPointMass);
+	change = true;
 	
 	controlPointMassLabel->setText(tr(text.c_str()));
 }
@@ -332,7 +336,8 @@ void EnvironmentTab::hairMassChanged()
 	text = "Hairs mass: ";
 	text.append(valueString);
 
-	// TODO set value  
+	(*settings)->setSimulationControlPointMass(hairMass);
+	change = true;
 	
 	hairMassLabel->setText(tr(text.c_str()));
 }
@@ -341,6 +346,8 @@ void EnvironmentTab::bgColorChanged()
 {
 	envBgColor = QColorDialog::getColor(Qt::gray, this);
 	changeBgColorButton(envBgColor);
+
+	// TODO set color
 }
 
 void EnvironmentTab::changeBgColorButton(QColor pNewColor)
@@ -402,12 +409,19 @@ void EnvironmentTab::setValues()
 	controlPointMassSlider->setValue((*settings)->getSimulationControlPointMass() * 10);
 	hairMassSlider->setValue((*settings)->getSimulationHairMass() * 10);
 
-
 	envBgColor.setRgb((*settings)->getWindowBgColorR()*255, (*settings)->getWindowBgColorG()*255, (*settings)->getWindowBgColorB()*255, (*settings)->getWindowBgColorA()*255);
 	changeBgColorButton(envBgColor);
 }
 
-void SettingsWindow::accept()
+void SettingsWindow::applyWindow()
 {
+	if (hairsTab->change == true || environmentTab->change == true)
+	{
+		*change = true;
+
+		hairsTab->change = false;
+		environmentTab->change = false;
+	}
+
 	this->hide();
 }

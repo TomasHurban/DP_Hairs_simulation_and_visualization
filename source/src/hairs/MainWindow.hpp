@@ -94,6 +94,7 @@ class MainWindow: public vl::Applet
 		bool simulationStarted;
 		int refreshSpeed;
 		int refreshTimer;
+		bool settingsChanged;
 };
 
 #endif

@@ -20,9 +20,10 @@ MainWindow::MainWindow(Settings *pSettings, int pArgc, char **pArgv)
 	mFPSTimer.start();
 	simulationStarted = false;
 	refreshTimer = 1;
+	settingsChanged = false;
 
 	core = new CoreFunctions();
-	settingsWindow = new SettingsWindow(&settings);
+	settingsWindow = new SettingsWindow(&settings, &settingsChanged);
 	physics = new Physics();
 
 	refreshSpeed = getRefreshSpeed(pSettings->getSimulationSynchSpeed());
@@ -116,7 +117,21 @@ void MainWindow::updateScene()
 		mFPSTimer.start();
 		openglContext()->setWindowTitle( vl::Say("[%.1n] %s") << fps() << "Hairs simulation and visualization" );
 		vl::Log::print( vl::Say("FPS=%.1n\n") << fps() );
-		//vl::Log::print( vl::Say("length=%.1n\n") << settings->getHairsLength() );
+	}
+
+	// check if settings changed
+	if (settingsChanged == true)
+	{
+		settingsChanged = false;
+
+		if (simulationStarted == true)
+		{
+			// TODO stop simulation if running
+			//simulationStarted = false;
+			//simulationThread.join();
+		}
+
+		// TODO restart visualization
 	}
 }
 

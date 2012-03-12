@@ -23,6 +23,7 @@ MainWindow::MainWindow(Settings *pSettings, int pArgc, char **pArgv)
 	settingsChanged = false;
 
 	core = new CoreFunctions();
+	// TODO check if values are in range
 	settingsWindow = new SettingsWindow(&settings, &settingsChanged);
 	physics = new Physics();
 
@@ -301,10 +302,19 @@ bool MainWindow::environmentInitialization()
 
 	if (GLEW_ARB_shading_language_100 || GLEW_VERSION_3_0)
 	{
-		/*vl::ref<vl::GLSLProgram> modelGlsl;
-		modelGlsl = effectModel->shader()->gocGLSLProgram();
-		modelGlsl->attachShader( new vl::GLSLVertexShader("perpixellight.vs") );
-		modelGlsl->attachShader( new vl::GLSLFragmentShader("perpixellight.fs") );*/
+		//vl::ref<vl::GLSLProgram> modelGlsl;
+		//modelGlsl = effectModel->shader()->gocGLSLProgram();
+		//modelGlsl->attachShader( new vl::GLSLFragmentShader("test6.fs") );
+		//modelGlsl->attachShader( new vl::GLSLVertexShader("test6.vs") );
+		//modelGlsl->attachShader( new vl::GLSLGeometryShader("test6.gs") );
+
+		/*float a=0.7;
+		const float * b = &a;
+		vl::Uniform* uni = new vl::Uniform;
+		uni->setName("coef");
+		uni->setUniform1f(1, b); 
+		modelGlsl->setUniform(uni);
+		modelGlsl->attachShader( new vl::GLSLVertexShader("test4.vs") );*/
 	}
 
 	return error;

@@ -137,7 +137,8 @@ void Hair::createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInter
 	geometry->setVertexArray(vertArray.get());
 	*vertArray = interpolationPoints;
 	geometry->computeNormals();
-	geometry->drawCalls()->push_back(new vl::DrawArrays(vl::PT_LINE_STRIP, 0, (int)vertArray->size()));
+	// vl::PT_TRIANGLE_STRIP, vl::PT_QUAD_STRIP, vl::PT_LINE_STRIP, vl::PT_POLYGON; vl::PT_TRIANGLES
+	geometry->drawCalls()->push_back(new vl::DrawArrays(vl::PT_QUAD_STRIP, 0, (int)vertArray->size()));
 
 	actor = new vl::Actor(geometry.get(), effect.get(), transform.get());
 }
@@ -155,8 +156,8 @@ void Hair::createMaterial()
 	material->setColorMaterialEnabled(true);
 	//material->setColorMaterial(vl::PF_FRONT_AND_BACK, vl::CM_AMBIENT); // vyblednute vlasy
 	//material->setFlatColor(vl::gold); // hlavna farba
-	material->setShininess(0.9f);
-	material->setTransparency(0.7f); // priehladnost - musi byt nastavena az po vybere farby aby fungovala
+	///material->setShininess(0.9f);
+	///material->setTransparency(0.7f); // priehladnost - musi byt nastavena az po vybere farby aby fungovala
 }
 
 // TODO
@@ -167,9 +168,9 @@ void Hair::createLight()
 	//light->setDiffuse(vl::yellow);
 	//light->setPosition(vl::fvec4(0, 0, 0, 1)); 
     //light->setConstantAttenuation(1.0f);
-    light->setLinearAttenuation(1.0f);
-    light->setQuadraticAttenuation(1.0f);
-	light->followTransform(NULL); // sleduje kameru
+    ///light->setLinearAttenuation(1.0f);
+    ///light->setQuadraticAttenuation(1.0f);
+	///light->followTransform(NULL); // sleduje kameru
 	//light->setAmbient(fvec4(0.0f, 0.0f, 0.0f, 1.0f));
 }
 
@@ -230,6 +231,13 @@ void Hair::createEffect()
 			modelGlsl->setGeometryInputType(vl::GIT_TRIANGLES);
 			modelGlsl->setGeometryOutputType(vl::GOT_TRIANGLE_STRIP);
 			modelGlsl->setGeometryVerticesOut( 3*6 );*/
+
+			modelGlsl = effect->shader()->gocGLSLProgram();
+			//modelGlsl->attachShader( new vl::GLSLFragmentShader("light.fs") );
+			//modelGlsl->attachShader( new vl::GLSLVertexShader("light.vs") );
+			modelGlsl->attachShader( new vl::GLSLVertexShader("hair.vs") );
+			
+			//modelGlsl->attachShader( new vl::GLSLGeometryShader("hair.gs") );
 		}
 		else
 		{

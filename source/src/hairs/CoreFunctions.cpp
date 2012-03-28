@@ -568,3 +568,42 @@ std::vector<vl::fvec3> CoreFunctions::computeInterpolationPoints(std::vector<vl:
 
 	return interpolationPoints;
 }
+
+std::vector<vl::fvec3> CoreFunctions::computeFinalPoints(std::vector<vl::fvec3> *pInterpolationPoints, float pWidth)
+{
+	std::vector<vl::fvec3> finalPoints;
+	std::vector<vl::fvec3>::iterator it;
+	std::vector<vl::fvec3>::reverse_iterator itRev;
+	//float x2, x3;
+	//float y2, y3;
+	//float z2, z3;
+	float height = sqrt(pWidth*pWidth - (pWidth/2)*(pWidth/2));
+
+	// OLD
+	//finalPoints = *pInterpolationPoints;
+
+	// NEW
+	// TODO pocitat otocenie
+	// for each interpolation point we create triagle (new 2 points)
+
+	// first side of hair
+	for (it=pInterpolationPoints->begin(); it!=pInterpolationPoints->end(); it++)
+	{
+		finalPoints.push_back(vl::fvec3(it->x(), it->y(), it->z()));
+		finalPoints.push_back(vl::fvec3((it->x() - pWidth/2), it->y(), (it->z() + height)));
+	}
+	// second side of hairs (reverse order)
+	for (itRev=pInterpolationPoints->rbegin(); itRev!=pInterpolationPoints->rend(); itRev++)
+	{
+		finalPoints.push_back(vl::fvec3(itRev->x(), itRev->y(), itRev->z()));
+		finalPoints.push_back(vl::fvec3((itRev->x() + pWidth/2), itRev->y(), (itRev->z() + height)));
+	}
+	// third side of hair
+	for (it=pInterpolationPoints->begin(); it!=pInterpolationPoints->end(); it++)
+	{
+		finalPoints.push_back(vl::fvec3((it->x() - pWidth/2), it->y(), (it->z() + height)));
+		finalPoints.push_back(vl::fvec3((it->x() + pWidth/2), it->y(), (it->z() + height)));
+	}
+
+	return finalPoints;
+}

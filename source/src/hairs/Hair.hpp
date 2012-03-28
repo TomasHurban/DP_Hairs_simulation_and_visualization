@@ -16,6 +16,8 @@
 #include <vector>
 #include <QtGlobal>
 #include <iostream>
+#include <vlGraphics/Geometry.hpp>
+#include <vlGraphics/GLSL.hpp>
 
 #include "CoreFunctions.hpp"
 
@@ -93,6 +95,20 @@ class Hair
 		std::vector<vl::fvec3> *getInterpolationPoints() { return &interpolationPoints; };
 
 		/**
+		* \fn		public void setFinalPoints(std::vector<vl::fvec3> *pFinalPoints)
+		* \brief	Set hair final points
+		* \param	pFinalPoints		final points
+		*/
+		void setFinalPoints(std::vector<vl::fvec3> *pFinalPoints) { finalPoints = *pFinalPoints; };
+
+		/**
+		* \fn		public std::vector<vl::fvec3> *getFinalPoints()
+		* \brief	Return hair final points
+		* \return	std::vector<vl::fvec3>*		hair final points
+		*/
+		std::vector<vl::fvec3> *getFinalPoints() { return &finalPoints; };
+
+		/**
 		* \fn		public void setInterpolationPoints(std::vector<vl::fvec3> *pInterpolationPoints)
 		* \brief	Set hair interpolation points
 		* \param	pInterpolationPoints		interpolation points
@@ -114,6 +130,8 @@ class Hair
 		void setNumberOfElements(int pNumberOfElements) { numberOfElements = pNumberOfElements; }
 
 		unsigned int getId() { return id; }
+
+		void computeFinalPoints();
 
 	protected:
 
@@ -166,6 +184,12 @@ class Hair
 		* \brief	Vector of hair interpolation control points 
 		*/
 		std::vector<vl::fvec3> interpolationPoints;
+
+		/**
+		* std::vector<vl::fvec3> finalPoints
+		* \brief	Vector of hair final points 
+		*/
+		std::vector<vl::fvec3> finalPoints;
 
 		/**
 		* vl::fvec3 *direction

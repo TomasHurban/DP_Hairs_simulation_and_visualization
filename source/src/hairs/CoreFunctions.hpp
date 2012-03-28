@@ -119,6 +119,15 @@ class CoreFunctions
 		* \return	std::vector<vl::fvec3>*		interpolated points
 		*/
 		std::vector<vl::fvec3> computeInterpolationPoints(std::vector<vl::fvec3> *pControlPoints, int pNewPointsNumber);
+	
+		/**
+		* \fn		std::vector<vl::fvec3> *computeFinalPoints(std::vector<vl::fvec3> *pInterpolationPoints)
+		* \brief	Compute final hair points from interpolation points
+		* \param	pInterpolationPoints		interpolation points 
+		* \param	pWidth						hair width 
+		* \return	std::vector<vl::fvec3>*		final hair points
+		*/
+		std::vector<vl::fvec3> computeFinalPoints(std::vector<vl::fvec3> *pInterpolationPoints, float pWidth);
 
 	protected:
 		/**

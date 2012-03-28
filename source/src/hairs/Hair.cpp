@@ -132,10 +132,11 @@ void Hair::createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInter
 	createTransform();
 
 	interpolationPoints = core->computeInterpolationPoints(&controlPoints, pHairInterpolationPointsNumber);
+	computeFinalPoints();
 
 	geometry = new vl::Geometry;
 	geometry->setVertexArray(vertArray.get());
-	*vertArray = interpolationPoints;
+	*vertArray = finalPoints;
 	geometry->computeNormals();
 	// vl::PT_TRIANGLE_STRIP, vl::PT_QUAD_STRIP, vl::PT_LINE_STRIP, vl::PT_POLYGON; vl::PT_TRIANGLES
 	geometry->drawCalls()->push_back(new vl::DrawArrays(vl::PT_QUAD_STRIP, 0, (int)vertArray->size()));
@@ -143,9 +144,16 @@ void Hair::createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInter
 	actor = new vl::Actor(geometry.get(), effect.get(), transform.get());
 }
 
+void Hair::computeFinalPoints()
+{
+	// for every interpolation point we create three points (triangle)
+	finalPoints = core->computeFinalPoints(&interpolationPoints, width);
+}
+
 void Hair::repaintHair()
 {
-	*vertArray = interpolationPoints;
+	//*vertArray = interpolationPoints;
+	*vertArray = finalPoints;
 	geometry->updateVBOs();
 }
 
@@ -154,7 +162,7 @@ void Hair::createMaterial()
 {
 	material = new vl::Material; 
 	material->setColorMaterialEnabled(true);
-	//material->setColorMaterial(vl::PF_FRONT_AND_BACK, vl::CM_AMBIENT); // vyblednute vlasy
+	//material->setColorMaterial(vl::PF_FRONT_AND_BACK, vl::CM_AMBIENT);
 	//material->setFlatColor(vl::gold); // hlavna farba
 	///material->setShininess(0.9f);
 	///material->setTransparency(0.7f); // priehladnost - musi byt nastavena az po vybere farby aby fungovala

@@ -16,6 +16,7 @@
 #include <vlCore/VisualizationLibrary.hpp>
 #include <vlCore/ResourceDatabase.hpp>
 #include <vlQt4/Qt4Widget.hpp>
+#include <vlGraphics/OpenGL.hpp>
 #include <QMainWindow>
 #include <QToolBar>
 #include <QIcon>

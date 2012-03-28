@@ -91,6 +91,9 @@ void MainWindow::updateScene()
 					// compute interpolated points from control points
 					itHairs->setInterpolationPoints(&(core->computeInterpolationPoints(controlPoints, settings->getHairInterpolationPointsNumber())));
 
+					// compute interpolated points from control points
+					itHairs->computeFinalPoints();
+
 					// repaint hair
 					itHairs->repaintHair();
 				}
@@ -302,11 +305,19 @@ bool MainWindow::environmentInitialization()
 
 	if (GLEW_ARB_shading_language_100 || GLEW_VERSION_3_0)
 	{
-		//vl::ref<vl::GLSLProgram> modelGlsl;
-		//modelGlsl = effectModel->shader()->gocGLSLProgram();
-		//modelGlsl->attachShader( new vl::GLSLFragmentShader("test6.fs") );
-		//modelGlsl->attachShader( new vl::GLSLVertexShader("test6.vs") );
-		//modelGlsl->attachShader( new vl::GLSLGeometryShader("test6.gs") );
+		vl::ref<vl::GLSLProgram> modelGlsl;
+	//	modelGlsl = effectModel->shader()->gocGLSLProgram();
+
+		//modelGlsl->attachShader( new vl::GLSLFragmentShader("heat.fs") );
+
+	//	modelGlsl->attachShader( new vl::GLSLVertexShader("hair.vs") );
+	//	modelGlsl->attachShader( new vl::GLSLGeometryShader("hair.gs") );
+		//modelGlsl->attachShader( new vl::GLSLVertexShader("diffuse.vs") );
+		//modelGlsl->attachShader( new vl::GLSLGeometryShader("triangle_fur.gs") );
+
+	    /*modelGlsl->setGeometryInputType(GIT_TRIANGLES);
+		modelGlsl->setGeometryOutputType(GOT_TRIANGLE_STRIP);
+		modelGlsl->setGeometryVerticesOut( 3*6 );*/
 
 		/*float a=0.7;
 		const float * b = &a;

@@ -29,6 +29,7 @@ include(${QT_USE_FILE})
 SET(SOURCES_H_FILES
 ./CoreFunctions.hpp
 ./Hair.hpp
+./HairEffect.hpp
 ./MainWindow.hpp
 ./Physics.hpp
 ./Settings.hpp
@@ -44,6 +45,7 @@ SET(SOURCES_H_QOBJECT
 SET(SOURCES_C_FILES
 ./CoreFunctions.cpp
 ./Hair.cpp
+./HairEffect.hpp
 ./Main.cpp
 ./MainWindow.cpp
 ./Physics.cpp

@@ -334,6 +334,9 @@ bool MainWindow::environmentInitialization()
 bool MainWindow::hairInitialization()
 {
 	bool error = false;
+
+	// default hair effect
+	hairEffect = new HairEffect();
 	std::list<vl::fvec3> startPositions;
 	std::list<vl::fvec3>::iterator it;
 	fvec3 *sphereCenterPosition;
@@ -389,7 +392,7 @@ bool MainWindow::hairInitialization()
 		}
 
 		Hair *newHair = new Hair(core->getHairID(), settings->getHairsLength(), settings->getHairsWidth(), settings->getHairParticlesNumber(), hairColor, hairStartPosition, direction, settings->getHairType(), settings->getHairControlPointsDistributionType(), settings->getHairControlPointsDistributionType3Multiplier());
-		newHair->createHair(rendering(), settings->getHairInterpolationPointsNumber());
+		newHair->createHair(rendering(), settings->getHairInterpolationPointsNumber(), hairEffect->get());
 		// TODO mozno vytvorit len 1 effect a transformaciu a priradit ju kazdemu vytvorenemu vlasu
 		sceneManager()->tree()->addActor(newHair->getHair()->get());
 		hairs.push_back(*newHair);

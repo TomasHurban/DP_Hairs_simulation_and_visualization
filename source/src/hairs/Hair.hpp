@@ -53,12 +53,13 @@ class Hair
 		~Hair();
 
 		/**
-		* \fn		public void createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInterpolatedPointsNumber)
+		* \fn		public void createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInterpolatedPointsNumber, vl::ref<vl::Effect>* pEffect)
 		* \brief	Create hair object
 		* \param	pRendering							rendering
 		* \param	pHairInterpolatedPointsNumber		number of hair interpolated points
+		* \param	pEffect								default hair effect
 		*/
-		void createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInterpolatedPointsNumber);
+		void createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInterpolatedPointsNumber, vl::ref<vl::Effect>* pEffect);
 
 		/**
 		* \fn		public void repaintHair()
@@ -95,11 +96,11 @@ class Hair
 		std::vector<vl::fvec3> *getInterpolationPoints() { return &interpolationPoints; };
 
 		/**
-		* \fn		public void setFinalPoints(std::vector<vl::fvec3> *pFinalPoints)
-		* \brief	Set hair final points
-		* \param	pFinalPoints		final points
+		* \fn		public void setInterpolationPoints(std::vector<vl::fvec3> *pInterpolationPoints)
+		* \brief	Set hair interpolation points
+		* \param	pInterpolationPoints		interpolation points
 		*/
-		void setFinalPoints(std::vector<vl::fvec3> *pFinalPoints) { finalPoints = *pFinalPoints; };
+		void setInterpolationPoints(std::vector<vl::fvec3> *pInterpolationPoints) { interpolationPoints = *pInterpolationPoints; };
 
 		/**
 		* \fn		public std::vector<vl::fvec3> *getFinalPoints()
@@ -109,20 +110,14 @@ class Hair
 		std::vector<vl::fvec3> *getFinalPoints() { return &finalPoints; };
 
 		/**
-		* \fn		public void setInterpolationPoints(std::vector<vl::fvec3> *pInterpolationPoints)
-		* \brief	Set hair interpolation points
-		* \param	pInterpolationPoints		interpolation points
+		* \fn		public void setFinalPoints(std::vector<vl::fvec3> *pFinalPoints)
+		* \brief	Set hair final points
+		* \param	pFinalPoints		final points
 		*/
-		void setInterpolationPoints(std::vector<vl::fvec3> *pInterpolationPoints) { interpolationPoints = *pInterpolationPoints; };
+		void setFinalPoints(std::vector<vl::fvec3> *pFinalPoints) { finalPoints = *pFinalPoints; };
 
-		vl::Effect *getEffect();
-		void setEffect(vl::Effect);
 		vl::Geometry *getGeometry();
 		void setGeometry(vl::Geometry);
-		vl::Light *getLight();
-		void setLight(vl::Light);
-		vl::Material *getMaterial();
-		void setMaterial(vl::Material);
 		vl::Transform *getTransform();
 		void setTransform(vl::Transform);
 
@@ -138,28 +133,10 @@ class Hair
 		void computeControlPoints();
 
 		/**
-		* \fn		protected void createMaterial()
-		* \brief	Create material for hair
-		*/
-		void createMaterial();
-
-		/**
-		* \fn		protected void createLight()
-		* \brief	Create light for hair
-		*/
-		void createLight();
-
-		/**
 		* \fn		protected void createTransform()
 		* \brief	Create transform for hair
 		*/
 		void createTransform();
-
-		/**
-		* \fn		protected void createEffect()
-		* \brief	Create effect for hair
-		*/
-		void createEffect();
 
 		/**
 		* vl::ref<vl::Actor> actor
@@ -198,10 +175,10 @@ class Hair
 		vl::fvec3 *direction;
 
 		/**
-		* vl::ref<vl::Effect> effect
+		* vl::ref<vl::Effect>* effect
 		* \brief	Hair effect
 		*/
-		vl::ref<vl::Effect> effect;
+		vl::ref<vl::Effect>* effect;
 
 		/**
 		* vl::ref<vl::Geometry> geometry
@@ -220,18 +197,6 @@ class Hair
 		* \brief	Length of hair string
 		*/
 		float length;
-
-		/**
-		* vl::ref<vl::Light> light
-		* \brief	Hair light
-		*/
-		vl::ref<vl::Light> light;
-
-		/**
-		* vl::ref<vl::Material> materialHair
-		* \brief	Hair material
-		*/
-		vl::ref<vl::Material> material;
 
 		/**
 		* int numberOfElements

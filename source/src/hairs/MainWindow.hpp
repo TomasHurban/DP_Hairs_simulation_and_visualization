@@ -40,6 +40,7 @@
 #include "SettingsWindow.hpp"
 #include "CoreFunctions.hpp"
 #include "Physics.hpp"
+#include "HairEffect.hpp"
 
 class MainWindow: public vl::Applet
 {
@@ -89,6 +90,7 @@ class MainWindow: public vl::Applet
 
 		SettingsWindow *settingsWindow;
 		CoreFunctions *core;
+		HairEffect* hairEffect;
 
 		bool error;
 		boost::thread simulationThread;

@@ -271,7 +271,7 @@ bool MainWindow::environmentInitialization()
 	}
 
 	// compute model normals to support lighting
-	model->computeNormals(); 
+/*	model->computeNormals(); 
 
 	transformModel = new vl::Transform;
 	rendering()->as<vl::Rendering>()->transform()->addChild( transformModel.get() );
@@ -285,11 +285,11 @@ bool MainWindow::environmentInitialization()
 	//effectModel->shader()->gocMaterial()->setSpecular( vl::lightgray );
 
 	sceneManager()->tree()->addActor( model.get(), effectModel.get(), transformModel.get() );
-
+*/
 	if (settings->getTextEnabled())
 	{
 		text = new Text;
-		text->setFont( defFontManager()->acquireFont(settings->getTextFont(), settings->getTextSize()) );
+		/*text->setFont( defFontManager()->acquireFont(settings->getTextFont(), settings->getTextSize()) );
 		text->setAlignment( AlignLeft | AlignBottom);
 		text->setViewportAlignment( AlignLeft | AlignBottom );
 		text->translate(5,5,0);
@@ -300,24 +300,25 @@ bool MainWindow::environmentInitialization()
 		effectText = new Effect;
 		effectText->shader()->enable(EN_BLEND);
 
-		sceneManager()->tree()->addActor( text, effectText.get() );
+		sceneManager()->tree()->addActor( text, effectText.get() );*/
 	}
 
 	if (GLEW_ARB_shading_language_100 || GLEW_VERSION_3_0)
 	{
-		vl::ref<vl::GLSLProgram> modelGlsl;
-	//	modelGlsl = effectModel->shader()->gocGLSLProgram();
+	/*	vl::ref<vl::GLSLProgram> modelGlsl;
+		modelGlsl = effectModel->shader()->gocGLSLProgram();
 
 		//modelGlsl->attachShader( new vl::GLSLFragmentShader("heat.fs") );
 
-	//	modelGlsl->attachShader( new vl::GLSLVertexShader("hair.vs") );
-	//	modelGlsl->attachShader( new vl::GLSLGeometryShader("hair.gs") );
-		//modelGlsl->attachShader( new vl::GLSLVertexShader("diffuse.vs") );
-		//modelGlsl->attachShader( new vl::GLSLGeometryShader("triangle_fur.gs") );
+		//modelGlsl->attachShader( new vl::GLSLVertexShader("hair.vs") );
+		//modelGlsl->attachShader( new vl::GLSLGeometryShader("hair.gs") );
+		modelGlsl->attachShader( new vl::GLSLVertexShader("diffuse.vs") );
+		modelGlsl->attachShader( new vl::GLSLGeometryShader("triangle_fur.gs") );
 
-	    /*modelGlsl->setGeometryInputType(GIT_TRIANGLES);
+	    modelGlsl->setGeometryInputType(GIT_TRIANGLES);
 		modelGlsl->setGeometryOutputType(GOT_TRIANGLE_STRIP);
-		modelGlsl->setGeometryVerticesOut( 3*6 );*/
+		modelGlsl->setGeometryVerticesOut( 3*6 );
+*/
 
 		/*float a=0.7;
 		const float * b = &a;
@@ -393,7 +394,7 @@ bool MainWindow::hairInitialization()
 
 		Hair *newHair = new Hair(core->getHairID(), settings->getHairsLength(), settings->getHairsWidth(), settings->getHairParticlesNumber(), hairColor, hairStartPosition, direction, settings->getHairType(), settings->getHairControlPointsDistributionType(), settings->getHairControlPointsDistributionType3Multiplier());
 		newHair->createHair(rendering(), settings->getHairInterpolationPointsNumber(), hairEffect->get());
-		// TODO mozno vytvorit len 1 effect a transformaciu a priradit ju kazdemu vytvorenemu vlasu
+
 		sceneManager()->tree()->addActor(newHair->getHair()->get());
 		hairs.push_back(*newHair);
 	}

@@ -40,20 +40,13 @@ void HairEffect::createEffect()
 		// check geometry shaders support
 		if (GLEW_Has_Geometry_Shader)
 		{
-			/*modelGlsl = effect->shader()->gocGLSLProgram();
-			// a vertex shader is always needed when using geometry shaders
-			modelGlsl->attachShader( new vl::GLSLVertexShader("/diffuse.vs") );
-			modelGlsl->attachShader( new vl::GLSLGeometryShader("/triangle_fur.gs") );
+			modelGlsl = effect->shader()->gocGLSLProgram();
+			modelGlsl->attachShader( new vl::GLSLVertexShader("shaders/hair.vs") );
+			//modelGlsl->attachShader( new vl::GLSLFragmentShader("shaders/hair.fs") );
+			modelGlsl->attachShader( new vl::GLSLGeometryShader("shaders/hair.gs") );
 			modelGlsl->setGeometryInputType(vl::GIT_TRIANGLES);
 			modelGlsl->setGeometryOutputType(vl::GOT_TRIANGLE_STRIP);
-			modelGlsl->setGeometryVerticesOut( 3*6 );*/
-
-			modelGlsl = effect->shader()->gocGLSLProgram();
-			//modelGlsl->attachShader( new vl::GLSLFragmentShader("light.fs") );
-			//modelGlsl->attachShader( new vl::GLSLVertexShader("light.vs") );
-			modelGlsl->attachShader( new vl::GLSLVertexShader("hair.vs") );
-			
-			//modelGlsl->attachShader( new vl::GLSLGeometryShader("hair.gs") );
+			modelGlsl->setGeometryVerticesOut(3*3); //
 		}
 		else
 		{

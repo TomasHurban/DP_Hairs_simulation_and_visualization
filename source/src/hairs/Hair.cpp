@@ -132,11 +132,12 @@ void Hair::createHair(vl::RenderingAbstract *pRendering, unsigned int pHairInter
 	computeFinalPoints();
 
 	geometry = new vl::Geometry;
+	geometry->setDisplayListEnabled(false);
+
 	geometry->setVertexArray(vertArray.get());
 	*vertArray = finalPoints;
 	geometry->computeNormals();
-	// vl::PT_TRIANGLE_STRIP, vl::PT_QUAD_STRIP
-	geometry->drawCalls()->push_back(new vl::DrawArrays(vl::PT_QUAD_STRIP, 0, (int)vertArray->size()));
+	geometry->drawCalls()->push_back(new vl::DrawArrays(vl::PT_TRIANGLE_STRIP, 0, (int)vertArray->size()));
 
 	actor = new vl::Actor(geometry.get(), effect->get(), transform.get());
 }

@@ -579,11 +579,6 @@ std::vector<vl::fvec3> CoreFunctions::computeFinalPoints(std::vector<vl::fvec3> 
 	//float z2, z3;
 	float height = sqrt(pWidth*pWidth - (pWidth/2)*(pWidth/2));
 
-	// OLD
-	//finalPoints = *pInterpolationPoints;
-
-	// NEW
-	// TODO pocitat otocenie
 	// for each interpolation point we create triagle (new 2 points)
 
 	// first side of hair

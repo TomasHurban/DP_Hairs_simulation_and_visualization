@@ -271,7 +271,7 @@ bool MainWindow::environmentInitialization()
 	}
 
 	// compute model normals to support lighting
-/*	model->computeNormals(); 
+	model->computeNormals(); 
 
 	transformModel = new vl::Transform;
 	rendering()->as<vl::Rendering>()->transform()->addChild( transformModel.get() );
@@ -281,15 +281,15 @@ bool MainWindow::environmentInitialization()
 	effectModel->shader()->enable(vl::EN_DEPTH_TEST);
 	effectModel->shader()->enable(vl::EN_LIGHTING);
 	effectModel->shader()->setRenderState( new vl::Light(0) );
-	effectModel->shader()->gocMaterial()->setDiffuse( vl::lightgray );
+	//effectModel->shader()->gocMaterial()->setDiffuse( vl::lightgray );
 	//effectModel->shader()->gocMaterial()->setSpecular( vl::lightgray );
 
 	sceneManager()->tree()->addActor( model.get(), effectModel.get(), transformModel.get() );
-*/
+
 	if (settings->getTextEnabled())
 	{
 		text = new Text;
-		/*text->setFont( defFontManager()->acquireFont(settings->getTextFont(), settings->getTextSize()) );
+		text->setFont( defFontManager()->acquireFont(settings->getTextFont(), settings->getTextSize()) );
 		text->setAlignment( AlignLeft | AlignBottom);
 		text->setViewportAlignment( AlignLeft | AlignBottom );
 		text->translate(5,5,0);
@@ -300,7 +300,7 @@ bool MainWindow::environmentInitialization()
 		effectText = new Effect;
 		effectText->shader()->enable(EN_BLEND);
 
-		sceneManager()->tree()->addActor( text, effectText.get() );*/
+		sceneManager()->tree()->addActor( text, effectText.get() );
 	}
 
 	if (GLEW_ARB_shading_language_100 || GLEW_VERSION_3_0)
@@ -337,7 +337,7 @@ bool MainWindow::hairInitialization()
 	bool error = false;
 
 	// default hair effect
-	hairEffect = new HairEffect();
+	hairEffect = new HairEffect(settings->getHairColorR(), settings->getHairColorG(), settings->getHairColorB(), settings->getHairColorA());
 	std::list<vl::fvec3> startPositions;
 	std::list<vl::fvec3>::iterator it;
 	fvec3 *sphereCenterPosition;

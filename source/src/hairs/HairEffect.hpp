@@ -19,7 +19,7 @@
 #include <vlGraphics/Geometry.hpp>
 #include <vlGraphics/GLSL.hpp>
 
-#include "CoreFunctions.hpp"
+#include "Settings.hpp"
 
 /**
 * \class	HairEffect
@@ -30,7 +30,7 @@
 class HairEffect
 {
 	public:
-		HairEffect();
+		HairEffect(float pColorR, float pColorG, float pColorB, float pColorA);
 
 		~HairEffect();
 
@@ -60,6 +60,16 @@ class HairEffect
 		* \brief	Hair material
 		*/
 		vl::ref<vl::Material> material;
+
+		float colorR;
+		float colorG;
+		float colorB;
+		float colorA;
+
+		vl::Uniform* uniR;
+		vl::Uniform* uniG;
+		vl::Uniform* uniB;
+		vl::Uniform* uniA;
 };
 
 #endif

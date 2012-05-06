@@ -186,14 +186,6 @@ void Physics::createHairs()
 
 			btSoftBody *rope = btSoftBodyHelpers::CreateRope(this->m_softBodyWorldInfo, btVector3( (lastPointX * sizeCoef), (lastPointY * sizeCoef), (lastPointZ * sizeCoef) ), btVector3( (itParts->x() * sizeCoef), (itParts->y() * sizeCoef), (itParts->z() * sizeCoef) ), res, fixeds);
 
-		/*rope->m_cfg.piterations = 4; 
-		rope->m_cfg.kDP = 0.005;
-		rope->m_cfg.kCHR = 0.1;
-		for(int i=0;i<3;++i)
-		{
-			rope->generateBendingConstraints(2+i);
-		}*/
-	
 			rope->setTotalMass(hairMass);
 
 			this->getSoftDynamicsWorld()->addSoftBody(rope);
@@ -236,11 +228,6 @@ void Physics::clientMoveAndDisplay()
 		if (isSimulationRunning)
 		{
 			int numSimSteps = m_dynamicsWorld->stepSimulation(simulationSpeed);
-		}
-
-		if(m_drag)
-		{
-			m_node->m_v*=0;
 		}
 
 		m_softBodyWorldInfo.m_sparsesdf.GarbageCollect();

@@ -50,11 +50,6 @@ class Physics : public PlatformApplication
 		btAlignedObjectArray<btSoftRididCollisionAlgorithm*> m_SoftRigidCollisionAlgorithms;
 		btSoftBodyWorldInfo	m_softBodyWorldInfo;
 
-		int m_lastmousepos[2];
-		btSoftBody::Node *m_node;
-		btVector3 m_goal;
-		bool m_drag;
-
 		//keep the collision shapes, for deletion/cleanup
 		btAlignedObjectArray<btCollisionShape*> m_collisionShapes;
 		btBroadphaseInterface* m_broadphase;
@@ -74,8 +69,6 @@ class Physics : public PlatformApplication
 		void initPhysics();
 		void exitPhysics();
 
-		Physics() : m_drag(false) {	controlPoints.clear(); }
-
 		virtual ~Physics()
 		{
 			exitPhysics();
@@ -83,14 +76,6 @@ class Physics : public PlatformApplication
 
 		virtual void clientMoveAndDisplay();
 		virtual void displayCallback();
-
-		static DemoApplication* Create()
-		{
-			Physics* app = new Physics;
-			app->myinit();
-			app->initPhysics();
-			return app;
-		}
 
 		virtual	void setDrawClusters(bool drawClusters);
 		virtual const btSoftRigidDynamicsWorld*	getSoftDynamicsWorld() const

@@ -150,16 +150,17 @@ class Settings
 		inline int getHairType() { return hairType; }
 		inline void setHairType(int pHairType) { hairType = pHairType; }
 
-		inline vl::String getModel() { return model; }
-		inline void setModel(vl::String pModel) { model = pModel; }
-
-		inline bool getModelEnabled() { return modelEnabled; }
-		inline void setModelEnabled(bool pModelEnabled) { modelEnabled = pModelEnabled; }
-
 		inline std::list<vl::fvec3> getStartPositions() { return startPositions; }
 		inline void setStartPositions(std::list<vl::fvec3> pStartPositions) { startPositions = pStartPositions; }
 
 		// environment settings
+		inline vl::String getModel() { return model; }
+		inline void setModel(vl::String pModel) { model = pModel; }
+		inline bool getModelEnabled() { return modelEnabled; }
+		inline void setModelEnabled(bool pModelEnabled) { modelEnabled = pModelEnabled; }
+		inline float getModelSizeCoef() { return modelSizeCoef; }
+		inline void setModelSizeCoef(float pModelSizeCoef) { modelSizeCoef = pModelSizeCoef; }
+
 		inline vl::String getTextFont() { return textFont; }
 		inline void setTextFont(vl::String pTextFont) { textFont = pTextFont; }
 
@@ -291,11 +292,12 @@ class Settings
 		int hairControlPointsDistributionType;
 		float hairControlPointsDistributionType3Multiplier;
 		int hairType;
-		vl::String model;
-		bool modelEnabled;
 		std::list<vl::fvec3> startPositions;
 
 		// environment settings
+		vl::String model;
+		bool modelEnabled;
+		float modelSizeCoef;
 		vl::String textFont;
 		unsigned int textSize;
 		bool textEnabled;

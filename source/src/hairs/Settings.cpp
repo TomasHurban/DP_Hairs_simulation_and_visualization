@@ -87,6 +87,8 @@ void Settings::setSettings(std::map<std::string, std::string> pSettings)
 	hairControlPointsDistributionType = atoi(getSettingValue("hair_control_points_dist_type").c_str());
 	hairControlPointsDistributionType3Multiplier = atof(getSettingValue("hair_control_points_dist_type_3_multiplier").c_str());
 	hairType = atoi(getSettingValue("hair_type").c_str());
+
+	// environment settings
 	model = getSettingValue("model").c_str();
 
 	if (atoi(getSettingValue("model_enabled").c_str()) == 1)
@@ -94,7 +96,8 @@ void Settings::setSettings(std::map<std::string, std::string> pSettings)
 	else
 		modelEnabled = false;
 
-	// environment settings
+	modelSizeCoef = atof(getSettingValue("model_size_coef").c_str());
+
 	textFont = getSettingValue("text_font").c_str();
 	textSize = atoi(getSettingValue("text_size").c_str());
 

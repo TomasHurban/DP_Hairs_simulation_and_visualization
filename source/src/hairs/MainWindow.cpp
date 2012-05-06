@@ -262,29 +262,30 @@ bool MainWindow::environmentInitialization()
 		else
 		{
 			model = resDB->get<vl::Geometry>(0);
+
+			// compute model normals to support lighting
+			model->computeNormals(); 
+
+			transformModel = new vl::Transform;
+			rendering()->as<vl::Rendering>()->transform()->addChild( transformModel.get() );
+
+			transformModel.get()->scale(settings->getModelSizeCoef(), settings->getModelSizeCoef(), settings->getModelSizeCoef());
+			transformModel.get()->computeWorldMatrix();
+
+			// setup the effect to be used to render the model 
+			effectModel = new vl::Effect;
+			effectModel->shader()->enable(vl::EN_DEPTH_TEST);
+			effectModel->shader()->enable(vl::EN_LIGHTING);
+			effectModel->shader()->setRenderState( new vl::Light(0) );
+	
+			sceneManager()->tree()->addActor( model.get(), effectModel.get(), transformModel.get() );
 		}
 	}	
 	else
 	{
-		// draw sphere as default
-		model = vl::makeUVSphere(vl::vec3(settings->getHairSphereCenterPositionX(), settings->getHairSphereCenterPositionY(), settings->getHairSphereCenterPositionZ()), (settings->getHairSphereRadius() * 2), 20, 20);
+		// draw nothing
+		//model = vl::makeUVSphere(vl::vec3(settings->getHairSphereCenterPositionX(), settings->getHairSphereCenterPositionY(), settings->getHairSphereCenterPositionZ()), (settings->getHairSphereRadius() * 2), 20, 20);
 	}
-
-	// compute model normals to support lighting
-	model->computeNormals(); 
-
-	transformModel = new vl::Transform;
-	rendering()->as<vl::Rendering>()->transform()->addChild( transformModel.get() );
-
-	// setup the effect to be used to render the model 
-	effectModel = new vl::Effect;
-	effectModel->shader()->enable(vl::EN_DEPTH_TEST);
-	effectModel->shader()->enable(vl::EN_LIGHTING);
-	effectModel->shader()->setRenderState( new vl::Light(0) );
-	//effectModel->shader()->gocMaterial()->setDiffuse( vl::lightgray );
-	//effectModel->shader()->gocMaterial()->setSpecular( vl::lightgray );
-
-	sceneManager()->tree()->addActor( model.get(), effectModel.get(), transformModel.get() );
 
 	if (settings->getTextEnabled())
 	{
@@ -305,28 +306,22 @@ bool MainWindow::environmentInitialization()
 
 	if (GLEW_ARB_shading_language_100 || GLEW_VERSION_3_0)
 	{
-	/*	vl::ref<vl::GLSLProgram> modelGlsl;
+		/*vl::ref<vl::GLSLProgram> modelGlsl;
 		modelGlsl = effectModel->shader()->gocGLSLProgram();
 
-		//modelGlsl->attachShader( new vl::GLSLFragmentShader("heat.fs") );
+		float sizeCoef = settings->getModelSizeCoef();
+		const float* modelSizeCoef = &sizeCoef;
+		vl::Uniform* uniCoef = new vl::Uniform;
+		uniCoef->setName("size_coef");
+		uniCoef->setUniform1f(1, modelSizeCoef); 
+		modelGlsl->setUniform(uniCoef);
 
-		//modelGlsl->attachShader( new vl::GLSLVertexShader("hair.vs") );
-		//modelGlsl->attachShader( new vl::GLSLGeometryShader("hair.gs") );
-		modelGlsl->attachShader( new vl::GLSLVertexShader("diffuse.vs") );
-		modelGlsl->attachShader( new vl::GLSLGeometryShader("triangle_fur.gs") );
+		modelGlsl->attachShader( new vl::GLSLVertexShader("shaders/model.vs") );
+		modelGlsl->attachShader( new vl::GLSLGeometryShader("shaders/model.gs") );
 
 	    modelGlsl->setGeometryInputType(GIT_TRIANGLES);
 		modelGlsl->setGeometryOutputType(GOT_TRIANGLE_STRIP);
-		modelGlsl->setGeometryVerticesOut( 3*6 );
-*/
-
-		/*float a=0.7;
-		const float * b = &a;
-		vl::Uniform* uni = new vl::Uniform;
-		uni->setName("coef");
-		uni->setUniform1f(1, b); 
-		modelGlsl->setUniform(uni);
-		modelGlsl->attachShader( new vl::GLSLVertexShader("test4.vs") );*/
+		modelGlsl->setGeometryVerticesOut(3*6);*/
 	}
 
 	return error;

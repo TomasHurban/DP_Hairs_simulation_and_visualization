@@ -87,6 +87,7 @@ class MainWindow: public vl::Applet
 		vl::ref<vl::Transform> transformModel;
 		vl::Text *text;
 		vl::Time mFPSTimer;	
+		vl::Actor* actor;
 
 		SettingsWindow *settingsWindow;
 		CoreFunctions *core;

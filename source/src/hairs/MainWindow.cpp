@@ -261,24 +261,17 @@ bool MainWindow::environmentInitialization()
 		}
 		else
 		{
-			model = resDB->get<vl::Geometry>(0);
-
-			// compute model normals to support lighting
-			model->computeNormals(); 
-
 			transformModel = new vl::Transform;
 			rendering()->as<vl::Rendering>()->transform()->addChild( transformModel.get() );
 
 			transformModel.get()->scale(settings->getModelSizeCoef(), settings->getModelSizeCoef(), settings->getModelSizeCoef());
 			transformModel.get()->computeWorldMatrix();
 
-			// setup the effect to be used to render the model 
-			effectModel = new vl::Effect;
-			effectModel->shader()->enable(vl::EN_DEPTH_TEST);
-			effectModel->shader()->enable(vl::EN_LIGHTING);
-			effectModel->shader()->setRenderState( new vl::Light(0) );
-	
-			sceneManager()->tree()->addActor( model.get(), effectModel.get(), transformModel.get() );
+			int k = 0;
+			actor = resDB->next<vl::Actor>(k);
+			actor->setTransform(transformModel.get());
+
+			sceneManager()->tree()->addActor(actor);
 		}
 	}	
 	else

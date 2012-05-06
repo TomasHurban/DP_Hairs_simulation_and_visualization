@@ -16,7 +16,8 @@ Index:
 2. Vytvorenie projektu
 3. Moznosti aplikacie
 4. Ovladanie aplikacie
-5. Bugs
+5. Model hlavy
+6. Bugs
 
 ################################################################################
 # 1. Do Visualisation Library boli vlozene subory
@@ -98,7 +99,14 @@ Index:
 
 
 ################################################################################
-# 5. Bugs
+# 5. Model hlavy
+################################################################################
+
+- model hlavy bol prebrany z: http://www.ir-ltd.net/infinite-3d-head-scan-released
+
+ 
+################################################################################
+# 6. Bugs
 ################################################################################
 
 - v okne simulacie vlasy nie su vizualne spojene s kontrolnymi bodmi

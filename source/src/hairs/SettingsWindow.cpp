@@ -70,7 +70,7 @@ HairsTab::HairsTab(QWidget *parent) : QWidget(parent)
 
 	hairWidthLabel = new QLabel(tr("Hairs width: "));
 	hairWidthSlider = new QSlider(Qt::Horizontal, this);
-	hairWidthSlider->setRange(5, 55);
+	hairWidthSlider->setRange(1, 20);
 	connect(hairWidthSlider, SIGNAL(valueChanged(int)), this, SLOT(hairWidthChanged()));
 
 	hairParticlesLabel = new QLabel(tr("Hair particles number: "));
@@ -142,12 +142,12 @@ void HairsTab::hairLengthChanged()
 
 void HairsTab::hairWidthChanged()
 {
-	int value = hairWidthSlider->value() - 5;
-	float hairWidth = 0.5 + value*0.05;
+	int value = hairWidthSlider->value(); 
+	float hairWidth = (float) value / 1000;
 	char* valueString = new char[30];
 	std::string text;
 	
-	sprintf(valueString, "%.2f", hairWidth);
+	sprintf(valueString, "%.3f", hairWidth);
 	text = "Hairs width: ";
 	text.append(valueString);
 
@@ -374,7 +374,7 @@ void HairsTab::setValues()
 	hairTypeComboBox->setCurrentIndex((*settings)->getHairType() - 1);
 	hairNumberSlider->setValue((*settings)->getHairsNumber());
 	hairLengthSlider->setValue((*settings)->getHairsLength() * 10);
-	hairWidthSlider->setValue((((*settings)->getHairsWidth() - 0.5) / 0.05) + 5);
+	hairWidthSlider->setValue((*settings)->getHairsWidth() * 1000 + 1);
 	hairParticlesSlider->setValue((*settings)->getHairParticlesNumber());
 	hairInterpolSlider->setValue((*settings)->getHairInterpolationPointsNumber());
 	hairColor.setRgb((*settings)->getHairColorR()*255, (*settings)->getHairColorG()*255, (*settings)->getHairColorB()*255, (*settings)->getHairColorA()*255);

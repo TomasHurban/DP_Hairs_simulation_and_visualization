@@ -33,25 +33,24 @@ void main()
 	hue2 = rand(vec2(218.15, 548.71));
 	hue2 = mod(hue2, hue_limit);
 
-	// original vertex
+	// original primitive
 	for (int i=0; i<gl_VerticesIn; i++)
 	{
 		gl_Position = gl_PositionIn[i];
+
 		// gl_FrontColor  = gl_FrontColorIn[0];
-		
-		// original color
 		gl_FrontColor = vec4(color_r, color_g, color_b, color_a);
 		EmitVertex();
 	}
 	EndPrimitive();
  
-	// new vertex
+	// new primitive (1)
    	for(int i=0; i<gl_VerticesIn; i++)
 	{
 		vec4 vertex = gl_PositionIn[i];
 		
 		if (vertex.y < 0)
-			dist = -vertex.y * diff1 * multi;// + sin(vertex.y);	
+			dist = -vertex.y * diff1 * multi;	
 		else
 			dist = vertex.y * diff1 * multi;	
 
@@ -63,7 +62,7 @@ void main()
 	}
 	EndPrimitive();
 
-	// new vertex
+	// new primitive (2)
    	for(int i=0; i<gl_VerticesIn; i++)
 	{
 		vec4 vertex = gl_PositionIn[i];
@@ -81,7 +80,7 @@ void main()
 	}
 	EndPrimitive();
 
-	// new vertex
+	// new primitive (3)
    	for(int i=0; i<gl_VerticesIn; i++)
 	{
 		vec4 vertex = gl_PositionIn[i];
@@ -99,7 +98,7 @@ void main()
 	}
 	EndPrimitive();
 
-	// new vertex
+	// new primitive (4)
    	for(int i=0; i<gl_VerticesIn; i++)
 	{
 		vec4 vertex = gl_PositionIn[i];

@@ -216,7 +216,12 @@ std::list<vl::fvec3> CoreFunctions::getStartingPositions(std::map<std::list<vl::
 
 			float maxDistanceY = computeDistance(newPoint1.y(), newPoint2.y());
 			float partDistanceY = computeDistance(newPoint1.y(), valueY);
-			float multiplier = partDistanceY / maxDistanceY;
+			float multiplier;
+
+			if (maxDistanceY != 0)
+				multiplier = partDistanceY / maxDistanceY;
+			else
+				multiplier = 1;
 
 			float maxDistanceZ = computeDistance(newPoint1.z(), newPoint2.z());
 			float partDistanceZ = maxDistanceZ * multiplier;

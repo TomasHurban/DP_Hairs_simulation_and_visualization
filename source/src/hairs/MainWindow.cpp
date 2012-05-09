@@ -234,8 +234,11 @@ void MainWindow::keyPressEvent(unsigned short, vl::EKey key)
 	// Show / hide simulation window
 	if (key == vl::Key_H)
 	{
-		showSimulationWindow(settings->getSimulationWindowShow());
-		settings->setSimulationWindowShow(!settings->getSimulationWindowShow());
+		if (simulationStarted)
+		{
+			showSimulationWindow(settings->getSimulationWindowShow());
+			settings->setSimulationWindowShow(!settings->getSimulationWindowShow());
+		}
 	}
 }
 
@@ -357,9 +360,26 @@ bool MainWindow::hairInitialization()
 	}
 	else if (settings->getHairStartPositionsType() == 3)
 	{
-		// generate hair starting position randomly on defined area 
-		// TODO - zavolat funkciu
-		//startPositions = core->getStartingPositions(settings->getHairsNumber(), sphereCenterPosition, settings->getHairSphereRadius(), planePoint);
+		// test 1 //
+		bool inCorners = false;
+		std::map<std::list<vl::fvec3>, unsigned int> area;
+		unsigned int number;
+
+		for (int i=1; i<4; i++)
+		{
+			number = 30;
+			float pos = (float) i;
+			std::list<vl::fvec3> cornerPoints;
+			cornerPoints.push_back(vl::fvec3(pos/10, 0, 0));
+			cornerPoints.push_back(vl::fvec3(-pos/10, 0, 0));
+			cornerPoints.push_back(vl::fvec3(0, 0, -pos/10));
+
+			area.insert(pair<std::list<vl::fvec3>, unsigned int>(cornerPoints, number));
+		}
+		// end test 1 //
+
+		// get starting points from defined area
+		startPositions = core->getStartingPositions(area, inCorners);
 	}
 	else // type 1
 	{

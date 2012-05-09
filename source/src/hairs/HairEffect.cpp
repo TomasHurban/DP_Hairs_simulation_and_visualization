@@ -75,15 +75,6 @@ void HairEffect::createEffect()
 			//modelGlsl->attachShader( new vl::GLSLFragmentShader("shaders/hair.fs") );
 			modelGlsl->attachShader( new vl::GLSLGeometryShader("shaders/hair.gs") );
 
-
-/*ref<Image> texture = new vl::Image("texture2.png");
-ref<Texture> hpImgTexture = new Texture(texture.get(), TF_RGB, true, false); 
-effect->shader()->gocTextureUnit(1)->setTexture(hpImgTexture.get());
- modelGlsl->gocUniform("texture")->setUniformI(1);*/
-
-		//	modelGlsl->attachShader( new vl::GLSLVertexShader("shaders/shader_light3.vs") );
-		//	modelGlsl->attachShader( new vl::GLSLFragmentShader("shaders/shader_light3.fs") );
-			//modelGlsl->attachShader( new vl::GLSLGeometryShader("shaders/hair.gs") );
 			modelGlsl->setGeometryInputType(vl::GIT_TRIANGLES);
 			modelGlsl->setGeometryOutputType(vl::GOT_TRIANGLE_STRIP);
 			modelGlsl->setGeometryVerticesOut(3*5); 

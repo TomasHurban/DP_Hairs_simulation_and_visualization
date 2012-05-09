@@ -1,10 +1,10 @@
 ################################################################################
 #                                                                              #
-#  Tomas Hurban                                                                #
+#  Bc. Tomas Hurban                                                            #
 #  Diploma project                                                             #
 #                                                                              #
 #  Hair simulation and visualization using GPU                                 #
-#  2011, June                                                                  #
+#  2012, May                                                                   #
 #                                                                              #
 #  Slovak University of Technology Bratislava                                  #
 #  FACULTY OF INFORMATICS AND INFORMATION TECHNOLOGIES                         #

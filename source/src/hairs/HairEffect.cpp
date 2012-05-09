@@ -90,20 +90,9 @@ void HairEffect::createMaterial()
 {
 	material = new vl::Material; 
 	material->setColorMaterialEnabled(true);
-	//material->setColorMaterial(vl::PF_FRONT_AND_BACK, vl::CM_AMBIENT);
-	//material->setFlatColor(vl::gold); // hlavna farba
-	///material->setShininess(0.9f);
-	///material->setTransparency(0.7f); // priehladnost - musi byt nastavena az po vybere farby aby fungovala
 }
 
 void HairEffect::createLight()
 {
 	light = new vl::Light(0); 
-	//light->setDiffuse(vl::yellow);
-	//light->setPosition(vl::fvec4(0, 0, 0, 1)); 
-    //light->setConstantAttenuation(1.0f);
-    ///light->setLinearAttenuation(1.0f);
-    ///light->setQuadraticAttenuation(1.0f);
-	///light->followTransform(NULL); // sleduje kameru
-	//light->setAmbient(fvec4(0.0f, 0.0f, 0.0f, 1.0f));
 }

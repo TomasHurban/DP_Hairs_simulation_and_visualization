@@ -23,6 +23,7 @@ MainWindow::MainWindow(Settings *pSettings, int pArgc, char **pArgv)
 	settingsChanged = false;
 
 	core = new CoreFunctions();
+
 	// TODO check if values are in range
 	settingsWindow = new SettingsWindow(&settings, &settingsChanged);
 	physics = new Physics();

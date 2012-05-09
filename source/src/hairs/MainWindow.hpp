@@ -70,8 +70,6 @@ class MainWindow: public vl::Applet
 		*/
 		virtual void keyPressEvent(unsigned short, vl::EKey key);
 
-		//vl::Actor* showHair(const std::vector<vl::fvec3>& ctrl_points);
-
 		inline void setText(vl::String pText);
 		bool environmentInitialization();
 		bool hairInitialization();

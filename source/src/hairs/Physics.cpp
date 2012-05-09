@@ -10,7 +10,7 @@ static btBvhTriangleMeshShape* trimeshShape =0;
 #ifdef _DEBUG
 	const int gNumObjects = 1;
 #else
-	const int gNumObjects = 1;//try this in release mode: 3000. never go above 16384, unless you increate maxNumObjects  value in DemoApplication.cp
+	const int gNumObjects = 1; //never go above 16384
 #endif
 
 const int maxNumObjects = 32760;
@@ -168,7 +168,7 @@ void Physics::createHairs()
 
 		for (itParts++; itParts!=points->end(); itParts++)
 		{
-			// vytvorime uzol a spojime s predchadzajucim uzlom
+			// create node and join it to previous node
 			btTransform controlPointTransform;
 			controlPointTransform.setIdentity();
 			controlPointTransform.setOrigin(btVector3( (itParts->x() * sizeCoef), (itParts->y() * sizeCoef), (itParts->z() * sizeCoef) ));

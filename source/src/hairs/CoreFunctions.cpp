@@ -59,8 +59,6 @@ std::list<vl::fvec3> CoreFunctions::getStartingPositions(qlonglong pNumberOfPosi
 		positions.push_back(vl::fvec3(finalX, finalY, finalZ));
 	}
 
-	// TODO: posunut body podla otocenia roviny
-
 	return positions;
 }
 
@@ -579,9 +577,6 @@ std::vector<vl::fvec3> CoreFunctions::computeFinalPoints(std::vector<vl::fvec3> 
 	std::vector<vl::fvec3> finalPoints;
 	std::vector<vl::fvec3>::iterator it;
 	std::vector<vl::fvec3>::reverse_iterator itRev;
-	//float x2, x3;
-	//float y2, y3;
-	//float z2, z3;
 	float height = sqrt(pWidth*pWidth - (pWidth/2)*(pWidth/2));
 
 	// for each interpolation point we create triagle (new 2 points)

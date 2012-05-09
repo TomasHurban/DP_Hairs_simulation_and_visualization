@@ -1,10 +1,10 @@
 ################################################################################
 #                                                                              #
-#  Tomas Hurban                                                                #
+#  Bc. Tomas Hurban                                                            #
 #  Diploma project                                                             #
 #                                                                              #
 #  Hair simulation and visualization using GPU                                 #
-#  2011, June                                                                  #
+#  2012, May                                                                   #
 #                                                                              #
 #  Slovak University of Technology Bratislava                                  #
 #  FACULTY OF INFORMATICS AND INFORMATION TECHNOLOGIES                         #
@@ -14,10 +14,9 @@
 Index:
 1. Vytvorene subory
 2. Vytvorenie projektu
-3. Moznosti aplikacie
-4. Ovladanie aplikacie
-5. Model hlavy
-6. Bugs
+3. Ovladanie aplikacie
+4. Model hlavy
+5. Bugs
 
 ################################################################################
 # 1. Do Visualisation Library boli vlozene subory
@@ -74,14 +73,7 @@ Index:
 
 
 ################################################################################
-# 3. Moznosti aplikacie
-################################################################################
-
-- Geometry Antialiasing (multisampling) - vyhladzovanie hran - ak sa nastavi vyssi nez je podporovany, je automaticky znizeny na najvyssi mozny
-
-
-################################################################################
-# 4. Ovladanie aplikacie
+# 3. Ovladanie aplikacie
 ################################################################################
 
 - lave tlacidlo mysi: rotacia objektu / rotacia kamery
@@ -99,14 +91,14 @@ Index:
 
 
 ################################################################################
-# 5. Model hlavy
+# 4. Model hlavy
 ################################################################################
 
 - model hlavy bol prebrany z: http://www.ir-ltd.net/infinite-3d-head-scan-released
 
  
 ################################################################################
-# 6. Bugs
+# 5. Bugs
 ################################################################################
 
 - v okne simulacie vlasy nie su vizualne spojene s kontrolnymi bodmi

@@ -99,16 +99,12 @@ class CoreFunctions
 		*/
 		vl::fvec3 *getDirection(vl::fvec3 *pStartPoint, vl::fvec3 *pEndPoint);
 
-		// comm TODO
 		Settings *loadSettings(std::string pFileName);
 
-		// comm TODO
 		bool saveSettings(Settings *pSettings);
 
-		// comm TODO
 		qlonglong getHairID();
 
-		// comm TODO
 		void resetIDCounter();
 
 		/**
@@ -139,7 +135,6 @@ class CoreFunctions
 		*/
 		std::set<vl::fvec3> getRandomPositions(qlonglong pNumberOfPositions, float pRadius);
 
-		// TODO comm
 		vl::fvec3 getRandomCirclePosition(float pPointAMin, float pPointAMax, float pPointBMin, float pPointBMax, float pRadius);
 
 		/**
@@ -161,7 +156,6 @@ class CoreFunctions
 
 		float getMax(float value1, float value2);
 
-		// comm TODO
 		qlonglong hairID;
 };
 

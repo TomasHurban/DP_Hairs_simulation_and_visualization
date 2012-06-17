@@ -116,6 +116,7 @@ void Physics::clientResetScene()
 	}
 
 	//create ground object
+	// ! INSERT FIXED OBJECTS HERE
 	btTransform tr;
 	tr.setIdentity();
 	tr.setOrigin(btVector3((settings->getHairSphereCenterPositionX() * sizeCoef), (settings->getHairSphereCenterPositionY() * sizeCoef), (settings->getHairSphereCenterPositionZ() * sizeCoef)));
@@ -125,7 +126,9 @@ void Physics::clientResetScene()
 	newOb->setInterpolationWorldTransform(tr);
 
 	newOb->setCollisionShape(m_collisionShapes[0]);
+
 	m_dynamicsWorld->addCollisionObject(newOb);
+
 
 	m_softBodyWorldInfo.m_sparsesdf.Reset();
 
@@ -301,7 +304,7 @@ void Physics::initPhysics()
 
 	m_azi = 0;
 	m_softBodyWorldInfo.m_sparsesdf.Initialize();
-	btCollisionShape *modelShape = new btSphereShape(btScalar(settings->getHairSphereRadius() * sizeCoef));
+	btCollisionShape *modelShape = new btSphereShape(btScalar(settings->getHairSphereRadius() * sizeCoef*1.5));
 	m_collisionShapes.push_back(modelShape);
 
 	clientResetScene();

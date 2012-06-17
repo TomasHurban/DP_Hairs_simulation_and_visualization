@@ -77,7 +77,7 @@ void HairEffect::createEffect()
 
 			modelGlsl->setGeometryInputType(vl::GIT_TRIANGLES);
 			modelGlsl->setGeometryOutputType(vl::GOT_TRIANGLE_STRIP);
-			modelGlsl->setGeometryVerticesOut(3*5); 
+			modelGlsl->setGeometryVerticesOut(3*10); 
 		}
 		else
 		{

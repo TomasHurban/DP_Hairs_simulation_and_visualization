@@ -57,8 +57,21 @@ class CoreFunctions
 		*/
 		std::list<vl::fvec3> getStartingPositions(qlonglong pNumberOfPositions, vl::fvec3 *pSphereCenterPosition, float pRadius, vl::fvec3 *pPlanePoint);
 
+		/**
+		* \fn		public std::list<vl::fvec3> getStartingPositions(std::string pFileName)
+		* \brief	Get hair starting points positions from file
+		* \param	pFileName				file name
+		* \return	std::list<vl::fvec3>	list of hairs starting positions
+		*/
 		std::list<vl::fvec3> getStartingPositions(std::string pFileName);
 
+		/**
+		* \fn		public std::list<vl::fvec3> getStartingPositions(std::map<std::list<vl::fvec3>, unsigned int> pArea, bool pStartingPositionsInCorners)
+		* \brief	Computes random hair starting points positions on defined area
+		* \param	pArea						area defined by triangles with number of start positions on each area
+		* \param	pStartingPositionsInCorners	if true, start positions will be generated at corner points too
+		* \return	std::list<vl::fvec3>		list of hairs starting positions
+		*/
 		std::list<vl::fvec3> getStartingPositions(std::map<std::list<vl::fvec3>, unsigned int> pArea, bool pStartingPositionsInCorners);
 
 		/**
@@ -99,12 +112,33 @@ class CoreFunctions
 		*/
 		vl::fvec3 *getDirection(vl::fvec3 *pStartPoint, vl::fvec3 *pEndPoint);
 
-		Settings *loadSettings(std::string pFileName);
+		/**
+		* \fn		public Settings* loadSettings(std::string pFileName)
+		* \brief	Load settings for hair model from file
+		* \param	pFileName		settings file name 
+		* \return	Settings*		settings loaded from file
+		*/
+		Settings* loadSettings(std::string pFileName);
 
-		bool saveSettings(Settings *pSettings);
+		/**
+		* \fn		public bool saveSettings(Settings *pSettings)
+		* \brief	! NOT IMPLEMENTED YET! Save settings for hair model to file
+		* \param	pSettings		settings to be saved 
+		* \return	bool			true if error occured, else false
+		*/
+		bool saveSettings(Settings* pSettings);
 
+		/**
+		* \fn		public qlonglong getHairID()
+		* \brief	Return next hair ID
+		* \return	qlonglong		hair ID
+		*/
 		qlonglong getHairID();
 
+		/**
+		* \fn		public void resetIDCounter()
+		* \brief	Function reset hair ID counter
+		*/
 		void resetIDCounter();
 
 		/**
@@ -117,17 +151,17 @@ class CoreFunctions
 		std::vector<vl::fvec3> computeInterpolationPoints(std::vector<vl::fvec3> *pControlPoints, int pNewPointsNumber);
 	
 		/**
-		* \fn		std::vector<vl::fvec3> *computeFinalPoints(std::vector<vl::fvec3> *pInterpolationPoints)
+		* \fn		std::vector<vl::fvec3> computeFinalPoints(std::vector<vl::fvec3> *pInterpolationPoints, float pWidth)
 		* \brief	Compute final hair points from interpolation points
 		* \param	pInterpolationPoints		interpolation points 
 		* \param	pWidth						hair width 
-		* \return	std::vector<vl::fvec3>*		final hair points
+		* \return	std::vector<vl::fvec3>		final hair points
 		*/
 		std::vector<vl::fvec3> computeFinalPoints(std::vector<vl::fvec3> *pInterpolationPoints, float pWidth);
 
 	protected:
 		/**
-		* \fn		public std::set<vl::fvec3> getRandomPositions(qlonglong pNumberOfPositions, float pRadius)
+		* \fn		protected std::set<vl::fvec3> getRandomPositions(qlonglong pNumberOfPositions, float pRadius)
 		* \brief	Computes random positions on top of sphere
 		* \param	pNumberOfPositions		number of positions to be return
 		* \param	pRadius					radius of a circle
@@ -135,10 +169,20 @@ class CoreFunctions
 		*/
 		std::set<vl::fvec3> getRandomPositions(qlonglong pNumberOfPositions, float pRadius);
 
+		/**
+		* \fn		protected vl::fvec3 getRandomCirclePosition(float pPointAMin, float pPointAMax, float pPointBMin, float pPointBMax, float pRadius)
+		* \brief	Computes random position on defined circle area
+		* \param	pPointAMin		point 1 minimum value 
+		* \param	pPointAMax		point 1 maximum value
+		* \param	pPointBMin		point 2 minimum value
+		* \param	pPointBMax		point 2 maximum value
+		* \param	pRadius			radius of a circle
+		* \return	std::list<vl::fvec3>	list of random positions in circle
+		*/
 		vl::fvec3 getRandomCirclePosition(float pPointAMin, float pPointAMax, float pPointBMin, float pPointBMax, float pRadius);
 
 		/**
-		* \fn		public float getRandomNumber(float min, float max)
+		* \fn		protected float getRandomNumber(float min, float max)
 		* \brief	Computes random number in range
 		* \param	min		minimum number range
 		* \param	max		maximum number range
@@ -146,16 +190,58 @@ class CoreFunctions
 		*/
 		float getRandomNumber(float min, float max);
 
+		/**
+		* \fn		protected vl::fvec3 getNewPointPosition(vl::fvec3 pPoint1, vl::fvec3 pPoint2, float pValueX)
+		* \brief	Computes new position
+		* \param	pPoint1		first poitn position
+		* \param	pPoint2		second point position
+		* \param	pValueX		position on the x axis 
+		* \return	vl::fvec3	position of new point
+		*/
 		vl::fvec3 getNewPointPosition(vl::fvec3 pPoint1, vl::fvec3 pPoint2, float pValueX);
 
+		/**
+		* \fn		protected float getMin(float value1, float value2, float value3)
+		* \brief	Return minimum value
+		* \param	value1		value 1
+		* \param	value2		value 2
+		* \param	value3		value 3
+		* \return	float		minimum value
+		*/
 		float getMin(float value1, float value2, float value3);
 
+		/**
+		* \fn		protected float getMin(float value1, float value2)
+		* \brief	Return minimum value
+		* \param	value1		value 1
+		* \param	value2		value 2
+		* \return	float		minimum value
+		*/
 		float getMin(float value1, float value2);
 
+		/**
+		* \fn		protected float getMax(float value1, float value2, float value3)
+		* \brief	Return maximum value
+		* \param	value1		value 1
+		* \param	value2		value 2
+		* \param	value3		value 3
+		* \return	float		maximum value
+		*/
 		float getMax(float value1, float value2, float value3);
 
+		/**
+		* \fn		protected float getMax(float value1, float value2)
+		* \brief	Return maximum value
+		* \param	value1		value 1
+		* \param	value2		value 2
+		* \return	float		maximum value
+		*/
 		float getMax(float value1, float value2);
 
+		/**
+		* \fn		protected qlonglong hairID
+		* \brief	Hair ID counter
+		*/
 		qlonglong hairID;
 };
 

@@ -1,3 +1,7 @@
+/*!
+* Hair.cpp
+* Project Hair simulation and visualization using GPU
+*/
 #include "Hair.hpp"
 
 using namespace vl;

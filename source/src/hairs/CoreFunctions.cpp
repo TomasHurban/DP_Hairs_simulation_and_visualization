@@ -1,3 +1,7 @@
+/*!
+* CoreFunctions.cpp
+* Project Hair simulation and visualization using GPU
+*/
 #include "CoreFunctions.hpp"
 
 using namespace vl;

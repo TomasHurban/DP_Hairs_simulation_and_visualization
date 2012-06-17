@@ -239,7 +239,7 @@ class CoreFunctions
 		float getMax(float value1, float value2);
 
 		/**
-		* \fn		protected qlonglong hairID
+		* protected qlonglong hairID
 		* \brief	Hair ID counter
 		*/
 		qlonglong hairID;

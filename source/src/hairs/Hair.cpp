@@ -162,17 +162,5 @@ void Hair::createTransform()
 {
 	transform = new vl::Transform;
 
-    /* shows how to use Transforms if they don't need to be dynamically
-       animated: first of all you don't put them in the rendering()->as<vl::Rendering>()->transform()'s
-       hierarchy like the other transforms; secondly you have to manually call
-       computeWorldMatrix()/computeWorldMatrixRecursive() to compute
-       the final matrix used for the rendering. This way the rendering pipeline
-       won't call computeWorldMatrix()/computeWorldMatrixRecursive()
-       continuously for the Transforms we know are not going to change over time,
-       thus saving precious time. */
-
-	// zrychlenie o cca 25 FPS ak nepridavame do rendering - example 10 Create_App_Transforms
-	// riadok "rendering->as<vl::Rendering>()->transform()->addChild(transform.get());" nahradime "transform->computeWorldMatrix(NULL);"
-	//rendering->as<vl::Rendering>()->transform()->addChild(transform.get());
 	transform->computeWorldMatrix(NULL);
 }

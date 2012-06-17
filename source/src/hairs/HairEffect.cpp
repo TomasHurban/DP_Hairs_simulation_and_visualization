@@ -1,3 +1,7 @@
+/*!
+* HairEffect.cpp
+* Project Hair simulation and visualization using GPU
+*/
 #include "HairEffect.hpp"
 
 using namespace vl;

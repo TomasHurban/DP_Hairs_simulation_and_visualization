@@ -1,3 +1,7 @@
+/*!
+* Settings.hpp
+* Project Hair simulation and visualization using GPU
+*/
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
@@ -7,13 +11,32 @@
 #include <vlQt4/Qt4Widget.hpp>
 #include <map>
 
+/**
+* \class	Settings
+* \brief	Settings class
+* \author	Tomas Hurban
+* \date		30.06.2011
+*/
 class Settings
 {
 	public:
+		/**
+		* \fn		public constructor Settings()
+		* \brief	Constructor
+		*/
 		Settings();
 
+		/**
+		* \fn		public destructor ~Settings()
+		* \brief	Destructor
+		*/
 		~Settings();
 
+		/**
+		* \fn		public void setSettings(std::map<std::string, std::string> pSettings)
+		* \brief	Set parameters loaded from file
+		* \param	pSettings		parameters loaded from file
+		*/
 		void setSettings(std::map<std::string, std::string> pSettings);
 
 		inline bool isError() { return errorLoadingSettings; }
@@ -229,7 +252,6 @@ class Settings
 		inline void setSimulationHairMass(float pSimulationHairMass) { simulationHairMass = pSimulationHairMass; }
 
 	protected:
-
 		std::string getSettingValue(std::string pSettingName);
 		void createFormat();
 		std::map<std::string, std::string> *settings;

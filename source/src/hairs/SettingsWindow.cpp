@@ -1,3 +1,7 @@
+/*!
+* SettingsWindow.cpp
+* Project Hair simulation and visualization using GPU
+*/
 #include "SettingsWindow.hpp"
 
 Settings** settings;

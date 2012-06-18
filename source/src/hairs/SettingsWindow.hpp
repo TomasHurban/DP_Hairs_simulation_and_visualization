@@ -1,3 +1,7 @@
+/*!
+* SettingsWindow.hpp
+* Project Hair simulation and visualization using GPU
+*/
 #ifndef WINDOW_SETTINGS_H
 #define WINDOW_SETTINGS_H
 
@@ -121,6 +125,12 @@ class AboutTab : public QWidget
 		QVBoxLayout *aboutLayout;
 };
 
+/**
+* \class	SettingsWindow
+* \brief	Settings window class
+* \author	Tomas Hurban
+* \date		15.08.2011
+*/
 class SettingsWindow : public QDialog
 {
     Q_OBJECT

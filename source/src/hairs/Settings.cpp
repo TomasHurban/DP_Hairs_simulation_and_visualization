@@ -1,3 +1,7 @@
+/*!
+* Settings.cpp
+* Project Hair simulation and visualization using GPU
+*/
 #include "Settings.hpp"
 
 using namespace vl;

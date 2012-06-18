@@ -1,3 +1,7 @@
+/*!
+* MainWindow.cpp
+* Project Hair simulation and visualization using GPU
+*/
 #include "MainWindow.hpp"
 
 static GLDebugDrawer sDebugDraw;
@@ -24,7 +28,6 @@ MainWindow::MainWindow(Settings *pSettings, int pArgc, char **pArgv)
 
 	core = new CoreFunctions();
 
-	// TODO check if values are in range
 	settingsWindow = new SettingsWindow(&settings, &settingsChanged);
 	physics = new Physics();
 
@@ -135,8 +138,6 @@ void MainWindow::updateScene()
 			//simulationStarted = false;
 			//simulationThread.join();
 		}
-
-		// TODO restart visualization
 	}
 }
 
@@ -281,7 +282,6 @@ bool MainWindow::environmentInitialization()
 	else
 	{
 		// draw nothing
-		//model = vl::makeUVSphere(vl::vec3(settings->getHairSphereCenterPositionX(), settings->getHairSphereCenterPositionY(), settings->getHairSphereCenterPositionZ()), (settings->getHairSphereRadius() * 2), 20, 20);
 	}
 
 	if (settings->getTextEnabled())
@@ -299,26 +299,6 @@ bool MainWindow::environmentInitialization()
 		effectText->shader()->enable(EN_BLEND);
 
 		sceneManager()->tree()->addActor( text, effectText.get() );
-	}
-
-	if (GLEW_ARB_shading_language_100 || GLEW_VERSION_3_0)
-	{
-		/*vl::ref<vl::GLSLProgram> modelGlsl;
-		modelGlsl = effectModel->shader()->gocGLSLProgram();
-
-		float sizeCoef = settings->getModelSizeCoef();
-		const float* modelSizeCoef = &sizeCoef;
-		vl::Uniform* uniCoef = new vl::Uniform;
-		uniCoef->setName("size_coef");
-		uniCoef->setUniform1f(1, modelSizeCoef); 
-		modelGlsl->setUniform(uniCoef);
-
-		modelGlsl->attachShader( new vl::GLSLVertexShader("shaders/model.vs") );
-		modelGlsl->attachShader( new vl::GLSLGeometryShader("shaders/model.gs") );
-
-	    modelGlsl->setGeometryInputType(GIT_TRIANGLES);
-		modelGlsl->setGeometryOutputType(GOT_TRIANGLE_STRIP);
-		modelGlsl->setGeometryVerticesOut(3*6);*/
 	}
 
 	return error;
@@ -361,7 +341,7 @@ bool MainWindow::hairInitialization()
 	}
 	else if (settings->getHairStartPositionsType() == 3)
 	{
-		// test 1 //
+		/*** example  ***/
 		bool inCorners = false;
 		std::map<std::list<vl::fvec3>, unsigned int> area;
 		unsigned int number;
@@ -377,7 +357,7 @@ bool MainWindow::hairInitialization()
 
 			area.insert(pair<std::list<vl::fvec3>, unsigned int>(cornerPoints, number));
 		}
-		// end test 1 //
+		/***         ***/
 
 		// get starting points from defined area
 		startPositions = core->getStartingPositions(area, inCorners);

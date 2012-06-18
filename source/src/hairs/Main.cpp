@@ -1,10 +1,16 @@
+/*!
+* Main.cpp
+* Project Hair simulation and visualization using GPU
+*/
 #include "MainWindow.hpp"
 
 using namespace vl;
 using namespace vlQt4;
 
+// main function
 int main(int argc, char *argv[])
 {
+	// config file name
 	std::string settingsFileName = "config.txt";
 	int val = 0;
 
@@ -14,10 +20,7 @@ int main(int argc, char *argv[])
 	CoreFunctions *core = new CoreFunctions();
 	Settings *settings = core->loadSettings(settingsFileName);
 
-	//QRect screenResolution = QApplication::desktop()->screenGeometry();
-	//int screenWidth = screenResolution.width();
-	//int screenHeight = screenResolution.height();
-
+	// check if settings loaded successfully
 	if (settings->isError())
 	{
 		vl::Log::error( Say("Error while loading \"config.txt\". Check if file exist.\n") );

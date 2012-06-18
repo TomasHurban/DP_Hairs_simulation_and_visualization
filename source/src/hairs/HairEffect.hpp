@@ -31,7 +31,7 @@ class HairEffect
 {
 	public:
 		/**
-		* \fn		public constructor HairEffect()
+		* \fn		public constructor HairEffect(float pColorR, float pColorG, float pColorB, float pColorA
 		* \brief	Constructor
 		* \param	pColorR		R value of RGBA color model
 		* \param	pColorG		G value of RGBA color model
